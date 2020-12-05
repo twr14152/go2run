@@ -9,9 +9,9 @@ I view this respository as an evolution of my Go_Network_Scripts repo. One diffe
 Phase 1 - Use Go to programatically interface with remote device Cli.
 
 Automated CLI operations via SSH
-- show commands
-- config commands
-- Copying files to remote host - scp_client
+- show command for discovery - Coming soon
+- configuation / validation commands script- ssh_client/
+- Copying files to remote host - scp_client/
 
 Will update as time permits.
 
