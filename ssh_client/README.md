@@ -8,13 +8,13 @@ The file naming convention is used to determined how the device is configured.
 The main file main.go uses a hostfile to determine which devices to log into.
 
 hostfile.txt
-- hostname:port#
-- hostname:port#
+- hostname:port
+- hostname:port
 
 Main.go calls unique cmd files for each device using the following naming 
 standard to determine the commands to apply to each device.
 
-File name format:  "hostname" + ":ssh Port" + ".cfg"
+File name format:  "hostname" + ":ssh_Port" + ".cfg"
 
 - hostname:port.cfg
 - hostname:port.cfg
@@ -38,7 +38,7 @@ total 3840
 -rwxr-xr-x 1 pi pi 3903487 Dec  5 14:45 ssh_client
 ```
 
-#host_file.txt
+# host_file
 ```
 pi@raspberrypi:~/Code_folder/go_folder/go2run/ssh_client $ cat host_file.txt 
 sbx-nxos-mgmt.cisco.com:8181
