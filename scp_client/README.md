@@ -4,16 +4,14 @@ Then issue go run main.go or go build then run the app with ./scp_client
 
 To customize for your needs you would want update host and login info as well as file your going to transfer.
 
+```
 vi main.go
-<cropped>
 
 src, err := os.Open("xxx.txt") //.txt,.cfg,,,etc
 user := "xxx"
 pass := "xxx"
 targethost := "host:port#"
-
-</cropped>
-
+```
 
 Script results:
 ```
