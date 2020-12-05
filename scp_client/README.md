@@ -15,6 +15,8 @@ targethost := "host:port#"
 
 Script results:
 ```
+testfile001.txt does not exist on destination host...
+
 csr1000v-1#dir
 Directory of bootflash:/
 
@@ -50,8 +52,13 @@ Directory of bootflash:/
 csr1000v-1#exit
 Connection to sandbox-iosxe-latest-1.cisco.com closed by remote host.
 Connection to sandbox-iosxe-latest-1.cisco.com closed.
+
+Run script to put testfile001.txt on remote host
+
 pi@raspberrypi:~/Code_folder/go_folder/go2run/scp_client $ ./scp_client
 success
+
+
 pi@raspberrypi:~/Code_folder/go_folder/go2run/scp_client $ ssh developer@sandbox-iosxe-latest-1.cisco.com
 Password:
 
@@ -68,7 +75,7 @@ csr1000v-1#dir
 Directory of bootflash:/
 
 201601  drwx            24576   Dec 5 2020 16:23:20 +00:00  tracelogs
-23      -rw-              129   Dec 5 2020 16:23:03 +00:00  testfile001.txt
+23      -rw-              129   Dec 5 2020 16:23:03 +00:00  testfile001.txt  <-- File was copied over
 193537  drwx             4096   Dec 5 2020 10:52:06 +00:00  gs_script
 225793  drwx             4096   Dec 5 2020 10:39:02 +00:00  SHARED-IOX
 217729  drwx             4096   Dec 5 2020 10:34:42 +00:00  iox_host_data_share
@@ -95,6 +102,7 @@ Testfile001.txt
 This is being used to test scp functionality.
 
 If you are reading this on the remote host test was successful.
+
 
 csr1000v-1#delete testfile001.txt
 Delete filename [testfile001.txt]?
