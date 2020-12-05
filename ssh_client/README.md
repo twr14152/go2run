@@ -47,34 +47,6 @@ sandbox-iosxe-latest-1.cisco.com:22
 
 # cmds for host1
 ```
-pi@raspberrypi:~/Code_folder/go_folder/go2run/ssh_client $ cat sandbox-iosxe-latest-1.cisco.com\:22.cfg 
-show run int loopback76
-!! REMOVE INTERFACE
-config t
- interface loopback76
- no ip address
- no interface loopback 76
- exit
-!! VALIDATE
-show ip int brief
-
-!! CONFIGURE INTERFACE
-config t
-interface Loopback76
- description scripted with Go
- ip address 1.1.1.76 255.255.255.255
-exit
-exit
-!
-!! VALIDATE
-show run int loopback 76
-show ip int brief
-exit
-```
-
-# cmds for host2
-
-```
 pi@raspberrypi:~/Code_folder/go_folder/go2run/ssh_client $ cat sbx-nxos-mgmt.cisco.com\:8181.cfg 
 !
 ! REMOVE INTERFACE
@@ -106,6 +78,35 @@ exit
 ! VALIDATE
 !
 show run int eth1/24
+show ip int brief
+exit
+
+```
+
+# cmds for host2
+
+```
+pi@raspberrypi:~/Code_folder/go_folder/go2run/ssh_client $ cat sandbox-iosxe-latest-1.cisco.com\:22.cfg 
+show run int loopback76
+!! REMOVE INTERFACE
+config t
+ interface loopback76
+ no ip address
+ no interface loopback 76
+ exit
+!! VALIDATE
+show ip int brief
+
+!! CONFIGURE INTERFACE
+config t
+interface Loopback76
+ description scripted with Go
+ ip address 1.1.1.76 255.255.255.255
+exit
+exit
+!
+!! VALIDATE
+show run int loopback 76
 show ip int brief
 exit
 
