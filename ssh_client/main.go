@@ -64,7 +64,7 @@ func main() {
 		sess.Stderr = os.Stderr
 		sess.Shell()
 		// cmds file should use host.cfg name standard
-		fmt.Println("This is the config file named:" + host + ".cfg")
+		fmt.Println("\n\nThis is the config file named:" + host + ".cfg")
 		fmt.Printf("\n\n\n\n")
 		cmds, _ := os.Open(host + ".cfg")
 		scanner := bufio.NewScanner(cmds)

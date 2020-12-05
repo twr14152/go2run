@@ -76,7 +76,6 @@ exit
 
 ```
 pi@raspberrypi:~/Code_folder/go_folder/go2run/ssh_client $ cat sbx-nxos-mgmt.cisco.com\:8181.cfg 
-show run int eth1/24
 !
 ! REMOVE INTERFACE
 !
@@ -106,8 +105,10 @@ exit
 !
 ! VALIDATE
 !
-show ip interface brief
 show run int eth1/24
+show ip int brief
+exit
+
 ````
 pi@raspberrypi:~/Code_folder/go_folder/go2run/ssh_client $ 
 
@@ -116,27 +117,16 @@ pi@raspberrypi:~/Code_folder/go_folder/go2run/ssh_client $
 # Results of the program
 
 ```
-pi@raspberrypi:~/Code_folder/go_folder/go2run/ssh_client $ ./ssh_client 
+pi@raspberrypi:~/Code_folder/go_folder/go2run/ssh_client $ ./ssh_client  
 [sbx-nxos-mgmt.cisco.com:8181 sandbox-iosxe-latest-1.cisco.com:22]
+
+
 This is the config file named:sbx-nxos-mgmt.cisco.com:8181.cfg
 
 
 
 
 stty: standard input: Inappropriate ioctl for device
-
-
-!Command: show running-config interface Ethernet1/24
-!Running configuration last done at: Sat Dec  5 07:27:24 2020
-!Time: Sat Dec  5 07:28:00 2020
-
-version 9.3(3) Bios:version  
-
-interface Ethernet1/24
-  description scripted interface - Go Rules...
-  no switchport
-  ip address 24.24.24.1/30
-  no shutdown
 
 
 IP Interface Status for VRF "default"(1)
@@ -151,6 +141,19 @@ Lo1                  172.16.0.1      protocol-up/link-up/admin-up
 Lo98                 10.98.98.1      protocol-up/link-up/admin-up       
 Lo99                 10.99.99.1      protocol-up/link-up/admin-up       
 Eth1/5               172.16.1.1      protocol-down/link-down/admin-down 
+
+!Command: show running-config interface Ethernet1/24
+!Running configuration last done at: Sat Dec  5 07:45:03 2020
+!Time: Sat Dec  5 07:45:04 2020
+
+version 9.3(3) Bios:version  
+
+interface Ethernet1/24
+  description scripted interface - Go Rules...
+  no switchport
+  ip address 24.24.24.1/30
+  no shutdown
+
 
 IP Interface Status for VRF "default"(1)
 Interface            IP Address      Interface Status
@@ -166,17 +169,6 @@ Lo99                 10.99.99.1      protocol-up/link-up/admin-up
 Eth1/5               172.16.1.1      protocol-down/link-down/admin-down 
 Eth1/24              24.24.24.1      protocol-down/link-down/admin-up   
 
-!Command: show running-config interface Ethernet1/24
-!Running configuration last done at: Sat Dec  5 07:28:00 2020
-!Time: Sat Dec  5 07:28:01 2020
-
-version 9.3(3) Bios:version  
-
-interface Ethernet1/24
-  description scripted interface - Go Rules...
-  no switchport
-  ip address 24.24.24.1/30
-  no shutdown
 
 This is the config file named:sandbox-iosxe-latest-1.cisco.com:22.cfg
 
@@ -263,7 +255,7 @@ Port-channel1          unassigned      YES unset  down                  down
 Port-channel1.101      unassigned      YES unset  down                  down    
 VirtualPortGroup0      172.31.0.1      YES manual up                    up      
 csr1000v-1#exit
-pi@raspberrypi:~/Code_folder/go_folder/go2run/ssh_client $
+pi@raspberrypi:~/Code_folder/go_folder/go2run/ssh_client $ 
 
 ```
 
