@@ -1,0 +1,2 @@
+sbx-nxos-mgmt.cisco.com:8181
+sandbox-iosxe-latest-1.cisco.com:22
