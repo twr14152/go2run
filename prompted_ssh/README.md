@@ -5,6 +5,11 @@ When the code is run it will ask you how many devices you want to connect to as 
 The example below is using devnet hosts but I've updated my /etc/hosts file to make it easier to test.
 The code does use these alias names in the code to pick the correct username and password.
 
+So you will need to add login credential to main.go.
+
+If you have multiple logins you could use if/else logic in the code to match hostname your logging into with appropriate username and password.
+
+Thats is how I tested it and it works. In reality you will more than likely be using tacacs and have standard login. So the code is written as such.
 
 # Running code with show commands
 
