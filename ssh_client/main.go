@@ -1,6 +1,6 @@
 // This ssh script will use host_file.txt to determine who to
 // login to, and the host.cfg to determine which commands
-// to run. Login creds will be determined by hostname.
+// to run.
 // (c) 2020 Todd Riemenschneider
 
 package main
@@ -31,8 +31,10 @@ func loginHosts() {
 func main() {
 	loginHosts()
 	for _, host := range hostList {
+		//This area is were you could put some custom logic for login creds
 		user = "<>"
 		pass = "<>"
+		//
 		config := &ssh.ClientConfig{
 			User: user,
 			Auth: []ssh.AuthMethod{
