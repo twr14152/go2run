@@ -19,7 +19,7 @@ var user string
 var pass string
 
 func loginHosts() {
-	hf, _ := os.Open("host_file.txt")
+	hf, _ := os.Open("<>")
 	scanner := bufio.NewScanner(hf)
 	scanner.Split(bufio.ScanLines)
 	for scanner.Scan() {

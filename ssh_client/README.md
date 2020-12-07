@@ -11,7 +11,8 @@ That was accomplished using if/else logic. You can reference go2run/misc/NonStdL
 
 The file naming convention is used to determined how the device is configured.
 
-The file main.go uses a hostfile to determine which devices to log into.
+The file main.go uses a hostfile to determine which devices to log into. 
+You can call it what ever you want just be sure to add it to the loginHosts() section.
 
 hostfile.txt
 - hostname:port
@@ -20,12 +21,26 @@ hostfile.txt
 Main.go calls unique cmd files for each device using the following naming 
 standard to determine the commands to apply to each device.
 
-File name format:  "hostname" + ":ssh_Port" + ".cfg"
+
+Commands files:
+
+File name format:
+"hostname" + ":ssh_Port" + ".cfg"
 
 - hostname:port.cfg
 - hostname:port.cfg
 
-- eg. CORE_R1:22.cfg
+- eg. CORE_R1:22.cfg or core_r2:8181.cfg  
+
+In sum to use this package you will need to do the following:
+```
+- Create commands files for each device using naming format provided.
+	- The commands file is where you put your Cli commands
+- Create hostfile and add it to main.go in loginHosts() function body
+- Add login credentials
+
+```
+
 
 --------------------
 
