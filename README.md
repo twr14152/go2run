@@ -3,7 +3,7 @@ Using Go to run (manage) your network devices.
 
 Work in Progress.....
 
-The goal with this repository is to build an extensible tool set that empowers the user to manage their network devices to the degree they see fit.
+The goal with this repository is to build a tool set that empowers the user to manage their network devices to the degree they see fit.
 I view this respository as an evolution of my Go_Network_Scripts repo. One difference is the use of go modules for package management.
 
 Phase 1 - Use Go to programatically interface with remote device Cli.
