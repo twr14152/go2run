@@ -37,10 +37,10 @@ total 3840
 -rw-r--r-- 1 pi pi       0 Dec  5 14:18 README.md
 -rw-r--r-- 1 pi pi      91 Dec  5 14:20 go.mod
 -rw-r--r-- 1 pi pi     832 Dec  5 14:20 go.sum
--rw-r--r-- 1 pi pi      65 Dec  5 14:30 host_file.txt
+-rw-r--r-- 1 pi pi      65 Dec  5 14:30 host_file.txt  <-- You need to create your hostfile
 -rw-r--r-- 1 pi pi    1948 Dec  5 14:42 main.go
--rw-r--r-- 1 pi pi     345 Dec  5 14:50 sandbox-iosxe-latest-1.cisco.com:22.cfg
--rw-r--r-- 1 pi pi     367 Dec  5 14:52 sbx-nxos-mgmt.cisco.com:8181.cfg
+-rw-r--r-- 1 pi pi     345 Dec  5 14:50 sandbox-iosxe-latest-1.cisco.com:22.cfg  <-- you need to create your config files
+-rw-r--r-- 1 pi pi     367 Dec  5 14:52 sbx-nxos-mgmt.cisco.com:8181.cfg         <-- you need to create your config files
 -rwxr-xr-x 1 pi pi 3903487 Dec  5 14:45 ssh_client
 ```
 
@@ -123,6 +123,7 @@ pi@raspberrypi:~/Code_folder/go_folder/go2run/ssh_client $
 -------------------
 # Results of the program
 
+You run your program using ./ssh_client after you 'go build' or simply issue 'go run main.go' either work
 ```
 pi@raspberrypi:~/Code_folder/go_folder/go2run/ssh_client $ ./ssh_client  
 [sbx-nxos-mgmt.cisco.com:8181 sandbox-iosxe-latest-1.cisco.com:22]
