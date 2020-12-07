@@ -1,5 +1,5 @@
 // This ssh script will use host_file to determine who to login to
-// and the host.port.cfg file to determine which commands to run.
+// and the host:port.cfg file to determine which commands to run.
 // (c) 2020 Todd Riemenschneider
 
 package main
