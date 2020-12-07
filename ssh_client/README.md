@@ -7,11 +7,11 @@ Most environments will be using tacacs or some other standard means of authentic
 The code as currently written for simple username and password for all devices.
 
 In the example I provided below I needed to use multiple usernames and passwords to log into the devices.
-That was accomplished using if/else logic. You can reference go2run/misc/ to code logic.
+That was accomplished using if/else logic. You can reference go2run/misc/NonStdLogins.go to see example.
 
 The file naming convention is used to determined how the device is configured.
 
-The main file main.go uses a hostfile to determine which devices to log into.
+The file main.go uses a hostfile to determine which devices to log into.
 
 hostfile.txt
 - hostname:port
