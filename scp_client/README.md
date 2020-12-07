@@ -2,7 +2,7 @@ In its current format the way to run this app is to update the filename os.Open(
 with the file you want to transfer to the device. Make sure you add the file to the scp_client folder.
 Then issue go run main.go or go build then run the app with ./scp_client 
 
-To customize for your needs you would want update host and login info as well as file your going to transfer.
+To customize for your needs you would want update host and login info as well as file you're going to transfer.
 
 ```
 vi main.go
@@ -10,7 +10,7 @@ vi main.go
 src, err := os.Open("xxx.txt") //.txt,.cfg,,,etc
 user := "xxx"
 pass := "xxx"
-targethost := "host:port#"
+targethost := "hostname_or_ip:port"
 ```
 
 Local directory setup for demo:
