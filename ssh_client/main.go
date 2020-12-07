@@ -31,15 +31,8 @@ func loginHosts() {
 func main() {
 	loginHosts()
 	for _, host := range hostList {
-		if host == "sandbox-iosxe-latest-1.cisco.com:22" || host == "ios-xe-mgmt.cisco.com:8181" {
-			user = "developer"
-			pass = "C1sco12345"
-		} else if host == "sbx-nxos-mgmt.cisco.com:8181" {
-			user = "admin"
-			pass = "Admin_1234!"
-		}
-		targethost := host
-
+		user = "<>"
+		pass = "<>"
 		config := &ssh.ClientConfig{
 			User: user,
 			Auth: []ssh.AuthMethod{
@@ -48,10 +41,8 @@ func main() {
 			HostKeyCallback: ssh.InsecureIgnoreHostKey(),
 		}
 
-		conn, err := ssh.Dial("tcp", targethost, config)
+		conn, err := ssh.Dial("tcp", host, config)
 		time.Sleep(1)
-		//Used for troubleshooting
-		//fmt.Println(conn)
 		if err != nil {
 			log.Fatal("Failed to dial: ", err)
 		}
