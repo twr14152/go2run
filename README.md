@@ -1,5 +1,4 @@
-# go2run
-Using Go to run (manage) your network devices.
+# go2run - Using Go to run (manage) your network devices.
 
 Work in Progress.....
 
