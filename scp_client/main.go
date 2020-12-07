@@ -17,16 +17,16 @@ func getAgent() (agent.Agent, error) {
 }
 
 func main() {
-	src, err := os.Open("testfile001.txt")
+	src, err := os.Open("<>")
 	if err != nil {
 		fmt.Println(err)
 	}
 	src.Close()
-	user := "developer"
-	pass := "C1sco12345"
-	targethost := "sandbox-iosxe-latest-1.cisco.com:22"
+	user := "<>"
+	pass := "<>"
+	host := "<host_ip>:<port>"
 
-	client, err := ssh.Dial("tcp", targethost, &ssh.ClientConfig{
+	client, err := ssh.Dial("tcp", host, &ssh.ClientConfig{
 		User: user,
 		Auth: []ssh.AuthMethod{
 			ssh.Password(pass),
