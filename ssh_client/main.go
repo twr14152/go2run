@@ -31,7 +31,7 @@ func loginHosts() {
 func main() {
 	loginHosts()
 	for _, host := range hostList {
-		//This area is were you could put some custom logic for login creds
+		//This area is where you could put custom logic for login creds
 		user = "<>"
 		pass = "<>"
 		//
