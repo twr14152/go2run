@@ -1,8 +1,14 @@
 
-The goal of this repo is to allow the user to create configuration/ 
-validation files that will go out to the appropriate device and issue
-the appropriate commands. Device authentication distinction is done by
-using if-else logic to make sure the appropiate device are logged into.
+The goal of this SSH script is to use host and cmd files to change and validate device configuration.
+
+In the code you will need to update your login creditenials for your environment.
+Most environments will be using tacacs or some other standard means of authentication.
+
+The code as currently written for simple username and password for all devices.
+
+In the example I provided below I needed to use multiple usernames and passwords to log into the devices.
+That was accomplished using if/else logic. You can reference go2run/misc/ to code logic.
+
 The file naming convention is used to determined how the device is configured.
 
 The main file main.go uses a hostfile to determine which devices to log into.
