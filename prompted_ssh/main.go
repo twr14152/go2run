@@ -36,8 +36,8 @@ func main() {
 	hostData := commands()
 
 	for host, commands := range hostData {
-		user = "temp"
-		pass = "Automate123!"
+		user = "<>"
+		pass = "<>"
 		config := &ssh.ClientConfig{
 			User: user,
 			Auth: []ssh.AuthMethod{
