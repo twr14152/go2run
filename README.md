@@ -9,12 +9,11 @@ I view this respository as an evolution of my Go_Network_Scripts repo. One diffe
 Phase 1 - Use Go to programatically interface with remote device Cli.
 
 Using Go to automate CLI operations via SSH
-```
-- Interactive script that will prompt you for host and commands (config and show commands) - prompted_ssh/
+
+- Interactive script that will prompt you for hosts and commands (config/show) - prompted_ssh/
 - Configuation / validation commands script- ssh_client/
 - Copying files to remote host - scp_client/
 
-```
 
 Will update as time permits.
 
