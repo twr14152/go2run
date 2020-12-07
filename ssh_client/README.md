@@ -25,7 +25,7 @@ File name format:  "hostname" + ":ssh_Port" + ".cfg"
 - hostname:port.cfg
 - hostname:port.cfg
 
-- eg. CORE_R1:20.cfg
+- eg. CORE_R1:22.cfg
 
 --------------------
 
