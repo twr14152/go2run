@@ -36,14 +36,8 @@ func main() {
 	hostData := commands()
 
 	for host, commands := range hostData {
-		if host == "nxos:8181" {
-			user = "admin"
-			pass = "Admin_1234!"
-		} else if host == "fastxe:22" || host == "slowxe:8181" {
-			user = "developer"
-			pass = "C1sco12345"
-
-		}
+		user = "temp"
+		pass = "Automate123!"
 		config := &ssh.ClientConfig{
 			User: user,
 			Auth: []ssh.AuthMethod{
