@@ -13,6 +13,24 @@ pass := "xxx"
 targethost := "host:port#"
 ```
 
+Local directory setup for demo:
+
+```
+pi@raspberrypi:~/Code_folder/go_folder/go2run/scp_client $ ls -l
+total 3844
+-rw-r--r-- 1 pi pi    5293 Dec  5 12:06 README.md
+-rw-r--r-- 1 pi pi     233 Dec  5 10:56 go.mod
+-rw-r--r-- 1 pi pi    1284 Dec  5 10:19 go.sum
+-rw-r--r-- 1 pi pi    1106 Dec  5 11:48 main.go
+-rwxr-xr-x 1 pi pi 3904571 Dec  5 11:39 scp_client
+-rw-r--r-- 1 pi pi     129 Dec  5 10:55 testfile001.txt
+pi@raspberrypi:~/Code_folder/go_folder/go2run/scp_client $
+
+```
+
+
+
+
 Script results:
 ```
 testfile001.txt does not exist on destination host...

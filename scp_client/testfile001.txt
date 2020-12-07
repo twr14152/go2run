@@ -1,6 +1,0 @@
-Testfile001.txt
-
-
-This is being used to test scp functionality.
-
-If you are reading this on the remote host test was successful.
