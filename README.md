@@ -9,7 +9,7 @@ Phase 1 - Use Go to programatically interface with remote device Cli.
 
 Using Go to automate CLI operations via SSH
 
-- Interactive script that will prompt you for hosts and commands (config/show) - ssh_cli_client/
+- Package that will prompt you for hosts and commands (config/show) to run on your device - runcli/
 - Configuation / validation script uses a hostfile and seperate configuration files to configure hosts - ssh_client/
 - Copying files to remote host - scp_client/
 
