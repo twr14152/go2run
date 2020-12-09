@@ -4,21 +4,14 @@ The idea behind this code is that you could quickly gather info on the fly as we
 When you run the code it will ask you how many devices you want to connect to, as well as what commands you want to run.
 The code will work with show commands as well as configuration commands. Good for minor changes especially in a lab environment.
 
-The example below is using Cisco Devnet hosts but I've updated my /etc/hosts file to make it easier to test.
-The code below was tested against ios-xe and nxos hosts. The one thing you will need to do is when you get prompted to provide
-the hostname of your device you need to add the port they are connecting with. For example:
-```
-host1:22
-host2:8181
-
-```
 Once you've downloaded package you need to make sure your GOROOT knows where to find it.
 
-On my raspberry PI I needed to copy the file over to /home/pi/go/src/ it may be something different for you.
+On my device I needed to copy the file over to /home/pi/go/src/ it may be something different for you.
+Any errors you may receive should point you in the right direction as far as where GOROOT is looking.
 ```
 cp -r runcli/ /home/pi/go/src/
 ```
-In this example we have 3 devices 2 ios-xe and 1 nx-os. The login parameters for the ios-xe are the same and the nxos has a different login. The app will then prompt you to enter the commands you want. In your code all you will need to add is login credentials to runcli.RunCli() for each group. The app will then prompt you for the commands to run.
+In this example we have 3 devices 2 ios-xe and 1 nx-os. The login parameters for the ios-xe are the same and the nxos is different. The app will then prompt you to enter the commands you want. In your code all you will need to do is import "runcli" and add your login credentials to runcli.RunCli() for each group. The app will then prompt you for the commands to run.
 
 Sample code:
 
@@ -38,7 +31,18 @@ func main() {
 	runcli.RunCli("username2", "password2")
 }
 ```
+The one thing you will need to do is when you get prompted to provide the hostname of your device you need to add the port your connecting on.
+
+For example:
+```
+host1:22
+host2:8181
+
+```
+
 # Running code with show commands
+
+Remember when you give the host device to add the port your connecting on.
 
 ```
 pi@raspberrypi:~/Code_folder/go_folder/go2run $ go run testruncli.go 
