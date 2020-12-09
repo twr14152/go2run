@@ -1,4 +1,5 @@
 # runcli
+
 The idea behind this code is that you could quickly gather info on the fly as well as make minor changes if so desired.
 When you run the code it will ask you how many devices you want to connect to, as well as what commands you want to run.
 The code will work with show commands as well as configuration commands. Good for minor changes especially in a lab environment.
@@ -17,12 +18,11 @@ On my raspberry PI I needed to copy the file over to /home/pi/go/src/ it may be 
 ```
 cp -r runcli/ /home/pi/go/src/
 ```
-
-In your code all you will need to add is login credentials to the file you create.
+In this example we have 3 devices 2 ios-xe and 1 nx-os. The login parameters for the ios-xe are the same and the nxos has a different login. The app will then prompt you to enter the commands you want. In your code all you will need to add is login credentials to runcli.RunCli() for each group. The app will then prompt you for the commands to run.
 
 Sample code:
 
-Create file testruncli.go add the following:
+Created file testruncli.go and added the following:
 ```
 package main
 
@@ -39,9 +39,6 @@ func main() {
 }
 ```
 # Running code with show commands
-
-The devices used in the code below each had different usernames and passwords. The code worked fine. Just needed to tweak the code using if/else logic
-with login creds.
 
 ```
 pi@raspberrypi:~/Code_folder/go_folder/go2run $ go run testruncli.go 
@@ -127,7 +124,7 @@ pi@raspberrypi:~/Code_folder/go_folder/go2run $ $
 
 # Running code with configuration commands + validation commands.
 
-In this example we will add loopback75 to fastxe csr and loopback76 to nxos device.
+Using the same testruncli.go file we will add loopback75 to fastxe csr and loopback76 to nxos device.
 
 ```
 pi@raspberrypi:~/Code_folder/go_folder/go2run $ go run testruncli.go 
