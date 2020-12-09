@@ -8,7 +8,7 @@ You will need to add login credential to main.go.
 
 If you have multiple logins you could use if/else logic in the code to match hostname you're logging into with appropriate username and password.
 
-In reality you will more than likely be using tacacs and have standard login. So the sample code is written as such.
+In reality you will more than likely be using tacacs and have standard login. So the base code is written as such.
 
 # Running code with show commands
 
