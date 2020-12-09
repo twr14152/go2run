@@ -1,0 +1,7 @@
+nxos
+username temp password Automate123! role priv-15
+
+fastxe
+slowxe
+username temp privilege 15 secret Automate123!
+
