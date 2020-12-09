@@ -11,6 +11,10 @@ host1:22
 host2:8181
 
 ```
+Once you've downloaded package you need to make sure your GOROOT knows where to find it.
+
+On my raspberry PI I needed to copy the file over to /home/pi/go/src/ it may be something different for you.
+cp -r runcli/ /home/pi/go/src/
 
 
 In your code all you will need to add is login credentials to the file you create.
