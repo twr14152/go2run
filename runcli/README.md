@@ -31,11 +31,12 @@ func main() {
 	runcli.RunCli("username2", "password2")
 }
 ```
-The one thing you will need to do is when you get prompted to provide the hostname of your device you need to add the port your connecting on.
+The one thing you will need to do when you get prompted is to provide the hostname with the port your connecting on.
 
 For example:
 ```
 host1:22
+
 host2:8181
 
 ```
