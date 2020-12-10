@@ -8,6 +8,7 @@ Once you've downloaded package you need to make sure your GOROOT knows where to 
 
 On my device I needed to copy the file over to /home/pi/go/src/ it may be something different for you.
 Any errors you may receive should point you in the right direction as far as where GOROOT is looking.
+I'm not all that familiar with creating packages so it could simply be a problem between the keyboard and my chair.:)
 ```
 cp -r runcli/ /home/pi/go/src/
 ```
