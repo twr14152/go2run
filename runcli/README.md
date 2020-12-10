@@ -1,8 +1,8 @@
 # runcli
 
 The idea behind this code is that you could quickly gather info on the fly as well as make minor changes if so desired.
-When you run the code it will ask you how many devices you want to connect to, as well as what commands you want to run.
-The code will work with show commands as well as configuration commands. Good for minor changes especially in a lab environment.
+When you import this package into your code it will ask you how many devices you want to connect to, as well as what commands you want to run.
+The code will work with show commands as well as configuration commands. Good gathering info and for minor changes especially in a lab environment.
 
 Once you've downloaded package you need to make sure your GOROOT knows where to find it.
 
