@@ -6,7 +6,7 @@ You will need to add login credential to main.go.
 
 If you have multiple logins you simply run a new instance of RunCli() for each group of devices.
 
-# Update main.go with the groups of devices you want to run the script against.
+### Update main.go with the groups of devices you want to run the script against.
 
 ```
 func main() {
@@ -16,8 +16,8 @@ func main() {
     //This will connect to another group of hosts using different auth
     //RunCli("username2", "password2")
 ```
-## Running code with show commands:
-### When you put the host in you need to include the connecting port number your using to connect eq host:22, or host:2022 for non-std ports
+### Running code with show commands:
+- When you put the host in you need to include the connecting port number your using to connect eq host:22, or host:2022 for non-std ports
 ```
 pi@raspberrypi:~/Code_folder/go_folder/go2run/ssh_cli_client $ go run main.go 
 Connecting to IOS-XE hosts:
@@ -60,7 +60,7 @@ pi@raspberrypi:~/Code_folder/go_folder/go2run/ssh_cli_client $
 
 
 
-Running code with configuration commands + validation commands.
+### Running code with configuration commands + validation commands.
 
 ```
 pi@raspberrypi:~/Code_folder/go_folder/go2run/ssh_cli_client $ go run main.go 
