@@ -17,7 +17,7 @@ func main() {
     //RunCli("username2", "password2")
 ```
 ### Running code with show commands:
-- When you put the host in you need to include the connecting port number your using to connect eq host:22, or host:2022 for non-std ports
+- For host you need to include ssh port you connecting to. In the host:port format.
 ```
 pi@raspberrypi:~/Code_folder/go_folder/go2run/ssh_cli_client $ go run main.go 
 Connecting to IOS-XE hosts:
