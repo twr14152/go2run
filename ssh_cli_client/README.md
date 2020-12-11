@@ -1,3 +1,5 @@
+# ssh_cli_client
+
 The idea behind this code is that you could quickly gather info on the fly as well as make minor changes if so desired. When the code is run, it will ask you how many devices you want to connect to, as well as what commands you want to run.
 You will need to add login credential to main.go.
 
@@ -14,8 +16,8 @@ func main() {
     //This will connect to another group of hosts using different auth
     //RunCli("username2", "password2")
 ```
-# Running code with show commands:
-## When you put the host in you need to include the connecting port number your using to connect eq host:22, or host:2022 for non-std ports
+## Running code with show commands:
+### When you put the host in you need to include the connecting port number your using to connect eq host:22, or host:2022 for non-std ports
 ```
 pi@raspberrypi:~/Code_folder/go_folder/go2run/ssh_cli_client $ go run main.go 
 Connecting to IOS-XE hosts:
