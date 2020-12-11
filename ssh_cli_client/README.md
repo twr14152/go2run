@@ -2,18 +2,19 @@ The idea behind this code is that you could quickly gather info on the fly as we
 You will need to add login credential to main.go.
 
 
-If you have multiple logins you simply run the function multiple times adding the unique username and password to each group of devices.
+If you have multiple logins you simply run a new instance of RunCli() for each group of devices.
 
+# Update main.go with the groups of devices you want to run the script against.
 
+```
 func main() {
-    //fmt.Println("This is the login to Group1 hosts")
-    //RunCli("username1", "password1")
+    fmt.Println("This is the login to Group1 hosts")
+    RunCli("username1", "password1")
     //fmt.Println("This is the login to Group2 hosts")
     //This will connect to another group of hosts using different auth
     //RunCli("username2", "password2")
-
-Running code with show commands:
-
+```
+# Running code with show commands:
 ```
 pi@raspberrypi:~/Code_folder/go_folder/go2run/ssh_cli_client $ go run main.go 
 Connecting to IOS-XE hosts:
