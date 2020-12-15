@@ -61,6 +61,7 @@ nxos:8181
 ```
 # cmds for host1
 ```
+$ cat file_fastxe\:22.cfg
 sh ip int brief
 config t
 interface loopback74
