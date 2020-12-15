@@ -1,10 +1,5 @@
-//This script will use hostfiles to determine who to log into.
-//The hostfile can be named what ever you like. eg group1.txt group2.txt
-//It will use command file to determine what to put on the devices.
-//The naming convention for the commands file is significant 
-//'file_hostname:<port>.cfg' or 'file_ip_addr:<port>.cfg'
-//	- file_core1:22.cfg
-//	- file_10.1.20.175:8181.cfg
+//This script will use hostfiles to determine what to login to.
+//Command files will be used to determine what cmds to run on the devices.
 //(c) 2020 Todd Riemenschneider
 
 package main
@@ -81,7 +76,7 @@ func connect(user, pass, hostfile string) {
 }
 func main() {
 	fmt.Println("Connecting to Group1 hosts:")
-	connect("username1", "password1", "group1.txt")
+	connect("user1", "password1", "group1.txt")
 	fmt.Println("Connecting to Group2 hosts:")
-	connect("username2", "password2", "group2.txt")
+	connect("user2", "password2", "group2.txt")
 }
