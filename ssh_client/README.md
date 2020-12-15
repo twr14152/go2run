@@ -61,16 +61,20 @@ nxos:8181
 ```
 # cmds for host1
 ```
-$ cat file_fastxe\:22.cfg 
 sh ip int brief
 config t
-no interface loopback 74
 interface loopback74
  description Script_test
  ip address 74.74.74.74 255.255.255.255
  exit
 exit
 show ip int brief
+config t
+no interface loopback 74
+exit
+exit
+
+
 ```
 
 # cmds for host2
@@ -115,6 +119,7 @@ The following programmability features are already enabled:
 Thanks for stopping by.
 
 
+
 csr1000v-1#sh ip int brief
 Interface              IP-Address      OK? Method Status                Protocol
 GigabitEthernet1       10.10.20.48     YES NVRAM  up                    up      
@@ -125,7 +130,6 @@ Loopback2              10.20.1.1       YES other  up                    up
 Loopback10             100.100.100.10  YES manual up                    up      
 Loopback20             22.22.22.22     YES manual up                    up      
 Loopback30             33.33.33.33     YES manual up                    up      
-Loopback74             74.74.74.74     YES manual up                    up      
 Loopback100            172.16.1.101    YES manual up                    up      
 Loopback101            unassigned      YES unset  up                    up      
 Loopback140            10.12.12.14     YES manual up                    up      
@@ -133,7 +137,6 @@ Loopback141            10.12.12.15     YES manual up                    up
 Loopback200            172.31.1.200    YES manual up                    up      
 csr1000v-1#config t
 Enter configuration commands, one per line.  End with CNTL/Z.
-csr1000v-1(config)#no interface loopback 74
 csr1000v-1(config)#interface loopback74
 csr1000v-1(config-if)# description Script_test
 csr1000v-1(config-if)# ip address 74.74.74.74 255.255.255.255
@@ -155,6 +158,10 @@ Loopback101            unassigned      YES unset  up                    up
 Loopback140            10.12.12.14     YES manual up                    up      
 Loopback141            10.12.12.15     YES manual up                    up      
 Loopback200            172.31.1.200    YES manual up                    up      
+csr1000v-1#config t
+Enter configuration commands, one per line.  End with CNTL/Z.
+csr1000v-1(config)#no interface loopback 74
+csr1000v-1(config)#exit
 csr1000v-1#exit
 Connecting to Group2 hosts:
 [nxos:8181]
@@ -195,8 +202,4 @@ Lo98                 10.98.98.1      protocol-up/link-up/admin-up
 Lo99                 10.99.99.1      protocol-up/link-up/admin-up       
 Eth1/5               172.16.1.1      protocol-down/link-down/admin-down 
 $
-``` 
-
-
-
-
+```
