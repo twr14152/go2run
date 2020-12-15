@@ -27,7 +27,6 @@ By using the "file_" in front of the name your able to use IP address as well ha
 In sum to use this package you will need to do the following:
 ```
 - Create commands files for each device using naming format provided.
-	- The commands file is where you put your Cli commands
 - Create hostfile and add it and your login parameters to the body of func main() in main.go
 - If you have multiple logins you can create groups to put the devices in and use those for host files.
 
