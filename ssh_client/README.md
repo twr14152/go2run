@@ -1,15 +1,14 @@
 # ssh_client
 The goal of this SSH script is to use host and cmd files to change and validate device configuration.
 
-In the code you will add your login credentials, and hostfile as parameters of the connect function in the func main of main.go.
+In the code you will add your login credentials and hostfile as parameters of the connect function in main.go.
  
-You can call the hostfile what ever you want. You need to include the port number along with the ip address or hostname.
+You can call the hostfile what ever you want. The connecting Port is also necessary in the file.
 hostfile.txt
 - hostname:port
 - hostname:port
 
-Main.go calls unique cmd files for each device using the following naming 
-standard to determine the commands to apply to each device.
+Main.go calls unique cmd files for each device using the following naming standard to determine the commands to apply to each device.
 
 
 Commands files:
@@ -40,7 +39,7 @@ In sum to use this package you will need to do the following:
 #Package files
 
 ```
-pi@raspberrypi:~/Code_folder/go_folder/go2run/ssh_mgmt_client $ ls -l
+$ ls -l
 total 32
 -rw-r--r-- 1 pi pi  165 Dec 15 16:04 file_fastxe:22.cfg
 -rw-r--r-- 1 pi pi  175 Dec 15 15:39 file_nxos:8181.cfg
@@ -78,7 +77,7 @@ show ip int brief
 # cmds for host2
 
 ```
-ppi@raspberrypi:~/Code_folder/go_folder/go2run/ssh_mgmt_client $ cat file_nxos\:8181.cfg         
+$ cat file_nxos\:8181.cfg         
 show ip int brief
 config t
 interface loopback 75
