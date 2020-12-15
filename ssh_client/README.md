@@ -1,19 +1,9 @@
-
+# ssh_client
 The goal of this SSH script is to use host and cmd files to change and validate device configuration.
 
-In the code you will need to update your login creditenials for your environment.
-Most environments will be using tacacs or some other standard means of authentication.
-
-The code as currently written for simple username and password for all devices.
-
-In the example I provided below I needed to use multiple usernames and passwords to log into the devices.
-That was accomplished using if/else logic. You can reference go2run/misc/NonStdLogins.go to see example.
-
-The file naming convention is used to determined how the device is configured.
-
-The file main.go uses a hostfile to determine which devices to log into. 
-You can call it what ever you want just be sure to add it to the loginHosts() section.
-
+In the code you will add your login credentials, and hostfile as parameters of the connect function in the func main of main.go.
+ 
+You can call the hostfile what ever you want. You need to include the port number along with the ip address or hostname.
 hostfile.txt
 - hostname:port
 - hostname:port
@@ -25,19 +15,22 @@ standard to determine the commands to apply to each device.
 Commands files:
 
 File name format:
-"hostname" + ":ssh_Port" + ".cfg"
+- "file_"+"hostname"+":ssh_Port"+".cfg" 
+- or -
+- "file_"+"ip address"+":ssh_Port"+".cfg"
 
-- hostname:port.cfg
-- hostname:port.cfg
-
-- eg. CORE_R1:22.cfg or core_r2:8181.cfg  
+Eg.
+- file_core_r1:22.cfg
+- file_10.0.1.100:8181.cfg
+ 
+By using the "file_" in front of the name your able to use IP address as well has hostnames.
 
 In sum to use this package you will need to do the following:
 ```
 - Create commands files for each device using naming format provided.
 	- The commands file is where you put your Cli commands
-- Create hostfile and add it to main.go in loginHosts() function body
-- Add login credentials
+- Create hostfile and add it and your login parameters to the body of func main() in main.go
+- If you have multiple logins you can create groups to put the devices in and use those for host files.
 
 ```
 
@@ -47,153 +40,69 @@ In sum to use this package you will need to do the following:
 #Package files
 
 ```
-pi@raspberrypi:~/Code_folder/go_folder/go2run/ssh_client $ ls -l
-total 3840
--rw-r--r-- 1 pi pi       0 Dec  5 14:18 README.md
--rw-r--r-- 1 pi pi      91 Dec  5 14:20 go.mod
--rw-r--r-- 1 pi pi     832 Dec  5 14:20 go.sum
--rw-r--r-- 1 pi pi      65 Dec  5 14:30 host_file.txt  <-- You need to create your hostfile
--rw-r--r-- 1 pi pi    1948 Dec  5 14:42 main.go
--rw-r--r-- 1 pi pi     345 Dec  5 14:50 sandbox-iosxe-latest-1.cisco.com:22.cfg  <-- you need to create your config files
--rw-r--r-- 1 pi pi     367 Dec  5 14:52 sbx-nxos-mgmt.cisco.com:8181.cfg         <-- you need to create your config files
--rwxr-xr-x 1 pi pi 3903487 Dec  5 14:45 ssh_client
+pi@raspberrypi:~/Code_folder/go_folder/go2run/ssh_mgmt_client $ ls -l
+total 32
+-rw-r--r-- 1 pi pi  165 Dec 15 16:04 file_fastxe:22.cfg
+-rw-r--r-- 1 pi pi  175 Dec 15 15:39 file_nxos:8181.cfg
+-rw-r--r-- 1 pi pi  108 Dec 15 12:24 file_slowxe:8181.cfg
+-rw-r--r-- 1 pi pi  108 Dec 15 12:23 go.mod
+-rw-r--r-- 1 pi pi  832 Dec 15 12:23 go.sum
+-rw-r--r-- 1 pi pi   10 Dec 15 12:59 group1.txt
+-rw-r--r-- 1 pi pi   10 Dec 15 12:30 group2.txt
+-rw-r--r-- 1 pi pi 1760 Dec 15 16:03 main.go
 ```
 
-# host_file
-```
-pi@raspberrypi:~/Code_folder/go_folder/go2run/ssh_client $ cat host_file.txt 
-sbx-nxos-mgmt.cisco.com:8181
-sandbox-iosxe-latest-1.cisco.com:22
-```
 
+# host_files
+```
+$ cat group1.txt 
+fastxe:22
+$ cat group2.txt 
+nxos:8181
+
+```
 # cmds for host1
 ```
-pi@raspberrypi:~/Code_folder/go_folder/go2run/ssh_client $ cat sbx-nxos-mgmt.cisco.com\:8181.cfg 
-!
-! REMOVE INTERFACE
-!
+$ cat file_fastxe\:22.cfg 
+sh ip int brief
 config t
-interface eth1/24
- no ip address
- no description
- switchport 
- shut
+no interface loopback 74
+interface loopback74
+ description Script_test
+ ip address 74.74.74.74 255.255.255.255
  exit
 exit
-!
-! VALIDATE
-!
 show ip int brief
-!
-! CONFIG INTERFACE
-!
-config t
-interface Eth1/24
-  no switchport
-  description scripted interface - Go Rules...
-  ip address 24.24.24.1/30
-  no shut
-  exit
-exit
-!
-! VALIDATE
-!
-show run int eth1/24
-show ip int brief
-exit
-
 ```
 
 # cmds for host2
 
 ```
-pi@raspberrypi:~/Code_folder/go_folder/go2run/ssh_client $ cat sandbox-iosxe-latest-1.cisco.com\:22.cfg 
-show run int loopback76
-!! REMOVE INTERFACE
+ppi@raspberrypi:~/Code_folder/go_folder/go2run/ssh_mgmt_client $ cat file_nxos\:8181.cfg         
+show ip int brief
 config t
- interface loopback76
- no ip address
- no interface loopback 76
+interface loopback 75
+ description Script_test
+ ip address 75.75.75.75/32
+exit
+exit
+show ip int brief
+config t
+ no interface loopback 75
  exit
-!! VALIDATE
-show ip int brief
-
-!! CONFIGURE INTERFACE
-config t
-interface Loopback76
- description scripted with Go
- ip address 1.1.1.76 255.255.255.255
 exit
-exit
-!
-!! VALIDATE
-show run int loopback 76
-show ip int brief
-exit
-
+$ 
 ````
-pi@raspberrypi:~/Code_folder/go_folder/go2run/ssh_client $ 
-
-
 -------------------
 # Results of the program
 
-You run your program using ./ssh_client after you 'go build' or simply issue 'go run main.go' either work
 ```
-pi@raspberrypi:~/Code_folder/go_folder/go2run/ssh_client $ ./ssh_client  
-[sbx-nxos-mgmt.cisco.com:8181 sandbox-iosxe-latest-1.cisco.com:22]
+$ go run main.go 
+Connecting to Group1 hosts:
+[fastxe:22]
 
 
-This is the config file named:sbx-nxos-mgmt.cisco.com:8181.cfg
-
-
-
-
-stty: standard input: Inappropriate ioctl for device
-
-
-IP Interface Status for VRF "default"(1)
-Interface            IP Address      Interface Status
-Vlan100              172.16.100.1    protocol-down/link-down/admin-down 
-Vlan101              172.16.101.1    protocol-down/link-down/admin-down 
-Vlan102              172.16.102.1    protocol-down/link-down/admin-down 
-Vlan103              172.16.103.1    protocol-down/link-down/admin-down 
-Vlan104              172.16.104.1    protocol-down/link-down/admin-down 
-Vlan105              172.16.105.1    protocol-down/link-down/admin-down 
-Lo1                  172.16.0.1      protocol-up/link-up/admin-up       
-Lo98                 10.98.98.1      protocol-up/link-up/admin-up       
-Lo99                 10.99.99.1      protocol-up/link-up/admin-up       
-Eth1/5               172.16.1.1      protocol-down/link-down/admin-down 
-
-!Command: show running-config interface Ethernet1/24
-!Running configuration last done at: Sat Dec  5 07:45:03 2020
-!Time: Sat Dec  5 07:45:04 2020
-
-version 9.3(3) Bios:version  
-
-interface Ethernet1/24
-  description scripted interface - Go Rules...
-  no switchport
-  ip address 24.24.24.1/30
-  no shutdown
-
-
-IP Interface Status for VRF "default"(1)
-Interface            IP Address      Interface Status
-Vlan100              172.16.100.1    protocol-down/link-down/admin-down 
-Vlan101              172.16.101.1    protocol-down/link-down/admin-down 
-Vlan102              172.16.102.1    protocol-down/link-down/admin-down 
-Vlan103              172.16.103.1    protocol-down/link-down/admin-down 
-Vlan104              172.16.104.1    protocol-down/link-down/admin-down 
-Vlan105              172.16.105.1    protocol-down/link-down/admin-down 
-Lo1                  172.16.0.1      protocol-up/link-up/admin-up       
-Lo98                 10.98.98.1      protocol-up/link-up/admin-up       
-Lo99                 10.99.99.1      protocol-up/link-up/admin-up       
-Eth1/5               172.16.1.1      protocol-down/link-down/admin-down 
-Eth1/24              24.24.24.1      protocol-down/link-down/admin-up   
-
-
-This is the config file named:sandbox-iosxe-latest-1.cisco.com:22.cfg
+This is the config file named:file_fastxe:22.cfg
 
 
 
@@ -208,79 +117,88 @@ The following programmability features are already enabled:
 Thanks for stopping by.
 
 
-
-csr1000v-1#show run int loopback76
-Building configuration...
-
-Current configuration : 95 bytes
-!
-interface Loopback76
- description scripted with Go
- ip address 1.1.1.76 255.255.255.255
-end
-
-csr1000v-1#!! REMOVE INTERFACE
-csr1000v-1#config t
-Enter configuration commands, one per line.  End with CNTL/Z.
-csr1000v-1(config)# interface loopback76
-csr1000v-1(config-if)# no ip address
-csr1000v-1(config-if)# no interface loopback 76
-csr1000v-1(config)# exit
-csr1000v-1#!! VALIDATE
-csr1000v-1#show ip int brief
+csr1000v-1#sh ip int brief
 Interface              IP-Address      OK? Method Status                Protocol
 GigabitEthernet1       10.10.20.48     YES NVRAM  up                    up      
-GigabitEthernet2       10.255.255.1    YES other  up                    up      
-GigabitEthernet3       unassigned      YES NVRAM  down                  down    
-Loopback0              unassigned      YES unset  up                    up      
-Loopback1              2.2.2.2         YES manual up                    up      
-Loopback2              unassigned      YES unset  up                    up      
-Loopback10             192.168.10.10   YES manual up                    up      
-Loopback1337           192.168.100.1   YES other  up                    up      
-Loopback1500           unassigned      YES unset  up                    up      
-Port-channel1          unassigned      YES unset  down                  down    
-Port-channel1.101      unassigned      YES unset  down                  down    
-VirtualPortGroup0      172.31.0.1      YES manual up                    up      
-csr1000v-1#
-csr1000v-1#!! CONFIGURE INTERFACE
+GigabitEthernet2       unassigned      YES NVRAM  administratively down down    
+GigabitEthernet3       unassigned      YES NVRAM  administratively down down    
+Loopback1              10.10.1.1       YES other  up                    up      
+Loopback2              10.20.1.1       YES other  up                    up      
+Loopback10             100.100.100.10  YES manual up                    up      
+Loopback20             22.22.22.22     YES manual up                    up      
+Loopback30             33.33.33.33     YES manual up                    up      
+Loopback74             74.74.74.74     YES manual up                    up      
+Loopback100            172.16.1.101    YES manual up                    up      
+Loopback101            unassigned      YES unset  up                    up      
+Loopback140            10.12.12.14     YES manual up                    up      
+Loopback141            10.12.12.15     YES manual up                    up      
+Loopback200            172.31.1.200    YES manual up                    up      
 csr1000v-1#config t
 Enter configuration commands, one per line.  End with CNTL/Z.
-csr1000v-1(config)#interface Loopback76
-csr1000v-1(config-if)# description scripted with Go
-csr1000v-1(config-if)# ip address 1.1.1.76 255.255.255.255
-csr1000v-1(config-if)#exit
+csr1000v-1(config)#no interface loopback 74
+csr1000v-1(config)#interface loopback74
+csr1000v-1(config-if)# description Script_test
+csr1000v-1(config-if)# ip address 74.74.74.74 255.255.255.255
+csr1000v-1(config-if)# exit
 csr1000v-1(config)#exit
-csr1000v-1#!
-csr1000v-1#!! VALIDATE
-csr1000v-1#show run int loopback 76
-Building configuration...
-
-Current configuration : 95 bytes
-!
-interface Loopback76
- description scripted with Go
- ip address 1.1.1.76 255.255.255.255
-end
-
 csr1000v-1#show ip int brief
 Interface              IP-Address      OK? Method Status                Protocol
 GigabitEthernet1       10.10.20.48     YES NVRAM  up                    up      
-GigabitEthernet2       10.255.255.1    YES other  up                    up      
-GigabitEthernet3       unassigned      YES NVRAM  down                  down    
-Loopback0              unassigned      YES unset  up                    up      
-Loopback1              2.2.2.2         YES manual up                    up      
-Loopback2              unassigned      YES unset  up                    up      
-Loopback10             192.168.10.10   YES manual up                    up      
-Loopback76             1.1.1.76        YES manual up                    up      
-Loopback1337           192.168.100.1   YES other  up                    up      
-Loopback1500           unassigned      YES unset  up                    up      
-Port-channel1          unassigned      YES unset  down                  down    
-Port-channel1.101      unassigned      YES unset  down                  down    
-VirtualPortGroup0      172.31.0.1      YES manual up                    up      
+GigabitEthernet2       unassigned      YES NVRAM  administratively down down    
+GigabitEthernet3       unassigned      YES NVRAM  administratively down down    
+Loopback1              10.10.1.1       YES other  up                    up      
+Loopback2              10.20.1.1       YES other  up                    up      
+Loopback10             100.100.100.10  YES manual up                    up      
+Loopback20             22.22.22.22     YES manual up                    up      
+Loopback30             33.33.33.33     YES manual up                    up      
+Loopback74             74.74.74.74     YES manual up                    up      
+Loopback100            172.16.1.101    YES manual up                    up      
+Loopback101            unassigned      YES unset  up                    up      
+Loopback140            10.12.12.14     YES manual up                    up      
+Loopback141            10.12.12.15     YES manual up                    up      
+Loopback200            172.31.1.200    YES manual up                    up      
 csr1000v-1#exit
-pi@raspberrypi:~/Code_folder/go_folder/go2run/ssh_client $ 
+Connecting to Group2 hosts:
+[nxos:8181]
 
-```
+
+This is the config file named:file_nxos:8181.cfg
+
+
+
+
+
+stty: standard input: Inappropriate ioctl for device
+
+IP Interface Status for VRF "default"(1)
+Interface            IP Address      Interface Status
+Vlan100              172.16.100.1    protocol-down/link-down/admin-down 
+Vlan101              172.16.101.1    protocol-down/link-down/admin-down 
+Vlan102              172.16.102.1    protocol-down/link-down/admin-down 
+Vlan103              172.16.103.1    protocol-down/link-down/admin-down 
+Vlan104              172.16.104.1    protocol-down/link-down/admin-down 
+Vlan105              172.16.105.1    protocol-down/link-down/admin-down 
+Lo1                  172.16.0.1      protocol-up/link-up/admin-up       
+Lo98                 10.98.98.1      protocol-up/link-up/admin-up       
+Lo99                 10.99.99.1      protocol-up/link-up/admin-up       
+Eth1/5               172.16.1.1      protocol-down/link-down/admin-down 
+
+IP Interface Status for VRF "default"(1)
+Interface            IP Address      Interface Status
+Vlan100              172.16.100.1    protocol-down/link-down/admin-down 
+Vlan101              172.16.101.1    protocol-down/link-down/admin-down 
+Vlan102              172.16.102.1    protocol-down/link-down/admin-down 
+Vlan103              172.16.103.1    protocol-down/link-down/admin-down 
+Vlan104              172.16.104.1    protocol-down/link-down/admin-down 
+Vlan105              172.16.105.1    protocol-down/link-down/admin-down 
+Lo1                  172.16.0.1      protocol-up/link-up/admin-up       
+Lo75                 75.75.75.75     protocol-up/link-up/admin-up       
+Lo98                 10.98.98.1      protocol-up/link-up/admin-up       
+Lo99                 10.99.99.1      protocol-up/link-up/admin-up       
+Eth1/5               172.16.1.1      protocol-down/link-down/admin-down 
+$
+``` 
+
 
 
 
