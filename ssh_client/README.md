@@ -3,10 +3,11 @@ The goal of this SSH script is to use host and cmd files to change and validate 
 
 In the code you will add your login credentials and hostfile as parameters of the connect function in main.go.
  
-You can call the hostfile what ever you want. The connecting Port is also necessary in the file.
+You can call the hostfile what ever you want. It is neccesary to include the connecting port in the file.
+
 hostfile.txt
 - hostname:port
-- hostname:port
+- ip_address:port
 
 Main.go calls unique cmd files for each device using the following naming standard to determine the commands to apply to each device.
 
@@ -32,23 +33,23 @@ In sum to use this package you will need to do the following:
 
 ```
 
-
+Example provided:
 --------------------
 
 #Package files
 
 ```
 $ ls -l
-total 32
--rw-r--r-- 1 pi pi  165 Dec 15 16:04 file_fastxe:22.cfg
--rw-r--r-- 1 pi pi  175 Dec 15 15:39 file_nxos:8181.cfg
--rw-r--r-- 1 pi pi  108 Dec 15 12:24 file_slowxe:8181.cfg
--rw-r--r-- 1 pi pi  108 Dec 15 12:23 go.mod
--rw-r--r-- 1 pi pi  832 Dec 15 12:23 go.sum
--rw-r--r-- 1 pi pi   10 Dec 15 12:59 group1.txt
--rw-r--r-- 1 pi pi   10 Dec 15 12:30 group2.txt
--rw-r--r-- 1 pi pi 1760 Dec 15 16:03 main.go
-```
+total 36
+-rw-r--r-- 1 pi pi  185 Dec 15 18:15 file_fastxe:22.cfg
+-rw-r--r-- 1 pi pi  176 Dec 15 18:15 file_nxos:8181.cfg
+-rw-r--r-- 1 pi pi  103 Dec 15 18:24 go.mod
+-rw-r--r-- 1 pi pi 1045 Dec 15 18:24 go.sum
+-rw-r--r-- 1 pi pi   10 Dec 15 18:17 group1.txt
+-rw-r--r-- 1 pi pi   10 Dec 15 18:25 group2.txt
+-rw-r--r-- 1 pi pi 1891 Dec 15 18:27 main.go
+-rw-r--r-- 1 pi pi 7211 Dec 15 18:39 README.md
+ $ 
 
 
 # host_files
