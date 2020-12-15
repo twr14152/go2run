@@ -1,6 +1,11 @@
-// This ssh script will use host_file to determine who to login to
-// and the host:port.cfg file to determine which commands to run.
-// (c) 2020 Todd Riemenschneider
+//This script will use hostfiles to determine who to log into.
+//The hostfile can be named what ever you like. eg group1.txt group2.txt
+//It will use command file to determine what to put on the devices.
+//The naming convention for the commands file is significant 
+//'file_hostname:<port>.cfg' or 'file_ip_addr:<port>.cfg'
+//	- file_core1:22.cfg
+//	- file_10.1.20.175:8181.cfg
+//(c) 2020 Todd Riemenschneider
 
 package main
 
@@ -16,9 +21,10 @@ import (
 var hostList []string
 var user string
 var pass string
+var hostfile string
 
-func loginHosts() {
-	hf, _ := os.Open("<>")
+func loginHosts(hostfile string) {
+	hf, _ := os.Open(hostfile)
 	scanner := bufio.NewScanner(hf)
 	scanner.Split(bufio.ScanLines)
 	for scanner.Scan() {
@@ -27,13 +33,10 @@ func loginHosts() {
 	fmt.Println(hostList)
 }
 
-func main() {
-	loginHosts()
+func connect(user, pass, hostfile string) {
+	loginHosts(hostfile)
 	for _, host := range hostList {
-		//This area is where you could put custom logic for login creds
-		user = "<>"
-		pass = "<>"
-		//
+
 		config := &ssh.ClientConfig{
 			User: user,
 			Auth: []ssh.AuthMethod{
@@ -56,9 +59,9 @@ func main() {
 		sess.Stderr = os.Stderr
 		sess.Shell()
 		// cmds file should use host.cfg name standard
-		fmt.Println("\n\nThis is the config file named:" + host + ".cfg")
+		fmt.Println("\n\nThis is the config file named:" + "file_" + host + ".cfg")
 		fmt.Printf("\n\n\n\n")
-		cmds, _ := os.Open(host + ".cfg")
+		cmds, _ := os.Open("file_" + host + ".cfg")
 		scanner := bufio.NewScanner(cmds)
 		scanner.Split(bufio.ScanLines)
 		var lines []string
@@ -74,4 +77,11 @@ func main() {
 		sess.Wait()
 		sess.Close()
 	}
+	hostList = nil
+}
+func main() {
+	fmt.Println("Connecting to Group1 hosts:")
+	connect("username1", "password1", "group1.txt")
+	fmt.Println("Connecting to Group2 hosts:")
+	connect("username2", "password2", "group2.txt")
 }
