@@ -51,7 +51,7 @@ total 36
 -rw-r--r-- 1 pi pi 7211 Dec 15 18:39 README.md
  $ 
 
-
+```
 # host_files
 ```
 $ cat group1.txt 
@@ -78,7 +78,6 @@ exit
 
 
 ```
-
 # cmds for host2
 
 ```
