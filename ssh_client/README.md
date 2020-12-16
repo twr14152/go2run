@@ -1,13 +1,14 @@
 # ssh_client
 The goal of this SSH script is to use host and cmd files to change and validate device configuration.
 
-In the code you will add your login credentials and hostfile as parameters of the connect function in main.go.
+In the code you will add your login credentials and hostfile as parameters of the connect() function in main.go.
  
-You can call the hostfile what ever you want. It is neccesary to include the connecting port in the file.
+You can call the hostfile what ever you want. It is however neccesary to include the connecting port in the file.
 
 hostfile.txt
 - hostname:port
 - ip_address:port
+
 
 Main.go calls unique cmd files for each device using the following naming standard to determine the commands to apply to each device.
 
@@ -15,6 +16,7 @@ Main.go calls unique cmd files for each device using the following naming standa
 Commands files:
 
 File name format:
+
 - "file_"+"hostname"+":ssh_Port"+".cfg" 
 - or -
 - "file_"+"ip address"+":ssh_Port"+".cfg"
