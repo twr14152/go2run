@@ -1,7 +1,7 @@
 # go2run
 
 This repo holds packages that can be used in your code to easily manage network devices.
-At the time of publishing this Cisco Devnet devices IOS-XE and NXOS have been tested.
+At the time of publishing only Cisco Devnet devices IOS-XE and NXOS have been tested.
 
 # runcli 
 - Package that allow users to login to groups of devices issuing show/config commands
