@@ -1,3 +1,5 @@
-# Deprecated - Go network packages and scripts will be written in Go_Network_Scripts repo....
+# go2run - This repo hold packages that can be used in your code to manage your network devices.
+
+
 
 
