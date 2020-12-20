@@ -4,14 +4,15 @@ This repo holds packages that can be used in your code to easily manage network 
 At the time of publishing only Cisco Devnet devices IOS-XE and NXOS have been tested.
 
 # runcli 
-- Package that allow users to login to groups of devices issuing both show and config commands
+- Package that allow users to login to groups of devices and interactively issuing both show and config commands
 - The groupings are based on common login credentials
 - Good for troubleshooting, gathering info quickly, and lab environments
-- Import package into your code and your off to the races
+- See the README in runcli directory for instuctions
 
 # runscript 
-- Package that allows the user to call host and command files for scripting network devices
-- Simply import the package into your code and customize for your environment
+- The goal of this package is to allow the user to use host and command files to change and validate device configurations
+- The amount of Go code the user has to write is minimal for the script to work
+- See the README in the runscript directory for instructions
 
 
 
