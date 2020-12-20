@@ -2,7 +2,7 @@
 
 The idea behind this code is that you could quickly gather info on the fly as well as make minor changes if so desired.
 When you import this package into your code it will ask you how many devices you want to connect to, as well as what commands you want to run.
-The code will work with show commands as well as configuration commands. Good gathering info and for minor changes especially in a lab environment.
+The code will work with show commands as well as configuration commands. Good for gathering info and for minor changes especially in a lab environment.
 
 # To install:
 ```
