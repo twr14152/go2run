@@ -12,5 +12,5 @@ At the time of publishing only Cisco Devnet devices IOS-XE and NXOS have been te
 - Package that allows the user to call host and command files for scripting network devices
 - Simply import the package into your code and customize for your environment
 
-## Use go get <package.name> to install locally.
+
 
