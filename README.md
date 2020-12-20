@@ -1,6 +1,4 @@
-# go2run - Using Go to run (manage) your network devices.
-
-Work in Progress.....
+# Deprecated - Go network packages and scripts will be written in Go_Network_Scripts repo....
 
 The goal with this repository is to build a toolset that will allows the user to manage their network devices to the degree they see fit.
 I view this respository as an evolution of my Go_Network_Scripts repo. One difference is the use of go modules for package management.
