@@ -1,21 +1,3 @@
 # Deprecated - Go network packages and scripts will be written in Go_Network_Scripts repo....
 
-The goal with this repository is to build a toolset that will allows the user to manage their network devices to the degree they see fit.
-I view this respository as an evolution of my Go_Network_Scripts repo. One difference is the use of go modules for package management.
-
-Phase 1 - Use Go to programatically interface with remote device Cli.
-
-Using Go to automate CLI operations via SSH
-
-- runcli/ - (Work in Progress) This package will prompt you for hosts and commands (config/show) to run on your devices
-- ssh-cli-client - Easy to use script for connecting to multiple devices and issuing (config/show) commands.
-- ssh_client - Configuation / validation script uses a hostfile and seperate configuration files to configure hosts
-- scp_client - script for copying files to remote host
-
-
-Will update as time permits.
-
-
-
-
 
