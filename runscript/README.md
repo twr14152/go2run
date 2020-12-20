@@ -1,5 +1,5 @@
 # runscript
-The goal of this package is to allow the user use host and cmd files to change and validate device configuration.
+The goal of this package is to allow the user to use host and cmd files to change and validate device configuration.
 You will simply need to import runscript into your main.go file and call the runscript.Connect() to connect to you devices.
 All you will need is the username password and the name of the hostfile you create with those common login parameters.
 If you have multiple login parameters create multiple hostfiles grouping those with common parameters.
