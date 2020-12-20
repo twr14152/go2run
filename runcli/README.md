@@ -4,25 +4,23 @@ The idea behind this code is that you could quickly gather info on the fly as we
 When you import this package into your code it will ask you how many devices you want to connect to, as well as what commands you want to run.
 The code will work with show commands as well as configuration commands. Good gathering info and for minor changes especially in a lab environment.
 
-Once you've downloaded package you need to make sure your GOROOT knows where to find it.
+# To install:
+```
+go get github.com/twr14152/go2run/runcli
 
-On my device I needed to copy the file over to /home/pi/go/src/ it may be something different for you.
-Any errors you may receive should point you in the right direction as far as where GOROOT is looking.
-I'm not all that familiar with creating packages so it could simply be a problem between the keyboard and my chair.:)
 ```
-cp -r runcli/ /home/pi/go/src/
-```
+
 In this example we have 3 devices 2 ios-xe and 1 nx-os. The login parameters for the ios-xe are the same and the nxos is different. The app will then prompt you to enter the commands you want. In your code all you will need to do is import "runcli" and add your login credentials to runcli.RunCli() for each group. The app will then prompt you for the commands to run.
 
 Sample code:
 
-Created file testruncli.go and added the following:
+Created file main.go and added the following:
 ```
 package main
 
 import (
 	"fmt"
-	"runcli"
+	"github.com/twr14152/go2run/runcli"
 )
 
 func main() {
@@ -47,16 +45,12 @@ host2:8181
 Remember when you give the host device to add the port your connecting on.
 
 ```
-pi@raspberrypi:~/Code_folder/go_folder/go2run $ go run testruncli.go 
-Connecting to ios-xe devices:
-Number of hosts: 2
-Hostname: fastxe:22
+ go run main.go 
+Connecting to ios-xe devices: 
+Number of hosts: 1
+Hostname: 131.226.217.143:22
 
-cmds: show ip int brief
-
-Hostname: slowxe:8181
-
-cmds: show ip int brief
+cmds: show ip int brief  
 
 
 Welcome to the DevNet Sandbox for CSR1000v and IOS XE
@@ -66,6 +60,7 @@ The following programmability features are already enabled:
   - RESTCONF
  
 Thanks for stopping by.
+
 
 
 csr1000v-1#term len 0
@@ -74,37 +69,13 @@ Interface              IP-Address      OK? Method Status                Protocol
 GigabitEthernet1       10.10.20.48     YES NVRAM  up                    up      
 GigabitEthernet2       unassigned      YES NVRAM  administratively down down    
 GigabitEthernet3       unassigned      YES NVRAM  administratively down down    
-Loopback0              100.64.0.1      YES other  up                    up      
-Loopback300            unassigned      YES unset  up                    up      
-Loopback444            unassigned      YES unset  up                    up      
-VirtualPortGroup0      192.168.35.1    YES manual up                    up      
+Loopback105            192.168.1.1     YES manual up                    up      
+Loopback106            192.168.1.2     YES manual up                    up      
 csr1000v-1#
 csr1000v-1#exit
-
-Welcome to the DevNet Sandbox for CSR1000v and IOS XE
-
-The following programmability features are already enabled:
-  - NETCONF
-  - RESTCONF
-
-Thanks for stopping by.
-
-
-
-csr1000v#term len 0
-csr1000v#show ip int brief
-Interface              IP-Address      OK? Method Status                Protocol
-GigabitEthernet1       10.10.20.48     YES NVRAM  up                    up      
-GigabitEthernet2       unassigned      YES NVRAM  administratively down down    
-GigabitEthernet3       unassigned      YES NVRAM  administratively down down    
-csr1000v#
-csr1000v#exit
-
-
-
-Connecting to nxos device:
+Connecting to nxos devices: 
 Number of hosts: 1
-Hostname: nxos:8181
+Hostname: 64.103.37.14:8181
 
 cmds: show ip int brief
 
@@ -114,7 +85,7 @@ gl_set_term_size: NULL arguments(s).
 
 IP Interface Status for VRF "default"(1)
 Interface            IP Address      Interface Status
-Vlan100              172.16.100.1    protocol-up/link-up/admin-up       
+Vlan100              172.16.100.1    protocol-down/link-down/admin-down 
 Vlan101              172.16.101.1    protocol-down/link-down/admin-down 
 Vlan102              172.16.102.1    protocol-down/link-down/admin-down 
 Vlan103              172.16.103.1    protocol-down/link-down/admin-down 
@@ -124,7 +95,7 @@ Lo1                  172.16.0.1      protocol-up/link-up/admin-up
 Lo98                 10.98.98.1      protocol-up/link-up/admin-up       
 Lo99                 10.99.99.1      protocol-up/link-up/admin-up       
 Eth1/5               172.16.1.1      protocol-down/link-down/admin-down 
-pi@raspberrypi:~/Code_folder/go_folder/go2run $ $ 
+ 
 ```
 
 
@@ -133,12 +104,12 @@ pi@raspberrypi:~/Code_folder/go_folder/go2run $ $
 Using the same testruncli.go file we will add loopback75 to fastxe csr and loopback76 to nxos device.
 
 ```
-pi@raspberrypi:~/Code_folder/go_folder/go2run $ go run testruncli.go 
-Connecting to ios-xe devices:
+ go run main.go 
+Connecting to ios-xe devices: 
 Number of hosts: 1
-Hostname: fastxe:22
+Hostname: 131.226.217.143:22
 
-cmds: config t, interface loopback75, ip address 75.0.0.1 255.255.255.255, description go script test, exit, exit, show ip int brief, show run int loopback75
+cmds: config t, interface loopback 110, description runcli_script_iosxe, ip address 110.110.110.110 255.255.255.255, exit, exit, show ip interface brief, show run interface loopback 110
 
 
 Welcome to the DevNet Sandbox for CSR1000v and IOS XE
@@ -154,72 +125,66 @@ Thanks for stopping by.
 csr1000v-1#term len 0
 csr1000v-1#config t
 Enter configuration commands, one per line.  End with CNTL/Z.
-csr1000v-1(config)# interface loopback75
-csr1000v-1(config-if)# ip address 75.0.0.1 255.255.255.255
-csr1000v-1(config-if)# description go script test
+csr1000v-1(config)# interface loopback 110
+csr1000v-1(config-if)# description runcli_script_iosxe
+csr1000v-1(config-if)# ip address 110.110.110.110 255.255.255.255
 csr1000v-1(config-if)# exit
 csr1000v-1(config)# exit
-csr1000v-1# show ip int brief
+csr1000v-1# show ip interface brief
 Interface              IP-Address      OK? Method Status                Protocol
 GigabitEthernet1       10.10.20.48     YES NVRAM  up                    up      
 GigabitEthernet2       unassigned      YES NVRAM  administratively down down    
 GigabitEthernet3       unassigned      YES NVRAM  administratively down down    
-Loopback0              100.64.0.1      YES other  up                    up      
-Loopback75             75.0.0.1        YES manual up                    up      
-Loopback300            unassigned      YES unset  up                    up      
-Loopback444            unassigned      YES unset  up                    up      
-VirtualPortGroup0      192.168.35.1    YES manual up                    up      
-csr1000v-1# show run int loopback75
+Loopback105            192.168.1.1     YES manual up                    up      
+Loopback106            192.168.1.2     YES manual up                    up      
+Loopback110            110.110.110.110 YES manual up                    up      
+csr1000v-1# show run interface loopback 110
 Building configuration...
 
-Current configuration : 93 bytes
+Current configuration : 106 bytes
 !
-interface Loopback75
- description go script test
- ip address 75.0.0.1 255.255.255.255
+interface Loopback110
+ description runcli_script_iosxe
+ ip address 110.110.110.110 255.255.255.255
 end
 
 csr1000v-1#
 csr1000v-1#exit
+Connecting to nxos devices: 
+Number of hosts: 1
+Hostname: 64.103.37.14:8181
 
+cmds: config t, interface loopback 110, description runcli_script_nxos, ip address 110.110.110.111/32, exit, exit, show ip int brief, show run interface loopback 110, exit
 
-
-Connecting to nxos device:
-Number of hosts: 1        
-Hostname: nxos:8181
-
-cmds: config t, interface loopback76, ip address 76.0.0.1/32, description go script test, exit, exit, show ip int brief, show run int loopback76
 
 stty: standard input: Inappropriate ioctl for device
-
 gl_set_term_size: NULL arguments(s).
 
 IP Interface Status for VRF "default"(1)
 Interface            IP Address      Interface Status
-Vlan100              172.16.100.1    protocol-up/link-up/admin-up       
+Vlan100              172.16.100.1    protocol-down/link-down/admin-down 
 Vlan101              172.16.101.1    protocol-down/link-down/admin-down 
 Vlan102              172.16.102.1    protocol-down/link-down/admin-down 
 Vlan103              172.16.103.1    protocol-down/link-down/admin-down 
 Vlan104              172.16.104.1    protocol-down/link-down/admin-down 
 Vlan105              172.16.105.1    protocol-down/link-down/admin-down 
 Lo1                  172.16.0.1      protocol-up/link-up/admin-up       
-Lo76                 76.0.0.1        protocol-up/link-up/admin-up       
 Lo98                 10.98.98.1      protocol-up/link-up/admin-up       
 Lo99                 10.99.99.1      protocol-up/link-up/admin-up       
+Lo110                110.110.110.111 protocol-up/link-up/admin-up       
 Eth1/5               172.16.1.1      protocol-down/link-down/admin-down 
 
-!Command: show running-config interface loopback76
-!Running configuration last done at: Wed Dec  9 01:08:25 2020
-!Time: Wed Dec  9 01:08:25 2020
+!Command: show running-config interface loopback110
+!Running configuration last done at: Sun Dec 20 04:16:21 2020
+!Time: Sun Dec 20 04:16:22 2020
 
 version 9.3(3) Bios:version  
 
-interface loopback76
-  description go script test
-  ip address 76.0.0.1/32
+interface loopback110
+  description runcli_script_nxos
+  ip address 110.110.110.111/32
 
-pi@raspberrypi:~/Code_folder/go_folder/go2run $ 
- 
+ 
 
 ```
 
