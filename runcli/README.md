@@ -30,7 +30,7 @@ func main() {
 	runcli.RunCli("username2", "password2")
 }
 ```
-The one thing you will need to do when you get prompted is to provide the hostname with the port your connecting on.
+The one thing you will need to do when you get prompted is to provide the hostname with the port you're connecting on.
 
 For example:
 ```
