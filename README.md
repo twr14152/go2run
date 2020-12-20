@@ -4,7 +4,7 @@ This repo holds packages that can be used in your code to easily manage network 
 At the time of publishing only Cisco Devnet devices IOS-XE and NXOS have been tested.
 
 # runcli 
-- Package that allow users to login to groups of devices issuing show/config commands
+- Package that allow users to login to groups of devices issuing both show and config commands
 - The groupings are based on common login credentials
 - Good for troubleshooting, gathering info quickly, and lab environments
 - Import package into your code and your off to the races
