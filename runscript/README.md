@@ -4,7 +4,7 @@ You will simply need to import runscript into your main.go file and call the run
 All you will need is the username password and the name of the hostfile you create with those common login parameters.
 If you have multiple login parameters create multiple hostfiles grouping those with common parameters.
 
-# To install package: 
+# To install: 
 ```
 $ go get github.com/twr14152/go2run/runscript
 
