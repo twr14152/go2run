@@ -9,9 +9,11 @@ This repo holds packages that can be used in your code to easily manage network 
 - See the README in runcli directory for instuctions
 
 # runscript 
-- The goal of this package is to allow the user to use host and command files to change and validate device configurations
+- This package will allow the user make changes and validate device configurations using host and command files
 - The amount of Go code the user has to write is minimal for the script to work
 - See the README in the runscript directory for instructions
 
-
+# runscp
+- This package will allow users to scp file over to a remote device
+- README has details
 
