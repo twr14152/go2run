@@ -66,28 +66,28 @@ Example provided:
 #Package files
 
 ```
-îº§ ls -l
+$ ls -l
 total 20
 -rw-r--r-- 1 runner runner 194 Dec 20 15:52 file_131.226.217.143:22.cfg
 -rw-r--r-- 1 runner runner 185 Dec 20 16:51 file_64.103.37.14:8181.cfg
 -rw-r--r-- 1 runner runner  18 Dec 20 15:53 group1.txt
 -rw-r--r-- 1 runner runner  18 Dec 20 16:44 group2.txt
 -rw-r--r-- 1 runner runner 318 Dec 20 16:55 main.go
-îº§
+$
 ```
 
 # host_files
 ```
-îº§ cat group1.txt 
+$ cat group1.txt 
 131.226.217.143:22
 
-îº§ cat group2.txt 
+$ cat group2.txt 
 64.103.37.14:8181
-îº§ 
+ 
 ```
 # cmds for host1
 ```
-îº§ cat file_131.226.217.143\:22.cfg 
+$ cat file_131.226.217.143\:22.cfg 
 sh ip int brief
 config t
 interface loopback74
@@ -100,12 +100,12 @@ config t
 no interface loopback 74
 exit
 exit
-îº§
+$
 ```
 
 # cmds for host2
 ```
-cat file_64.103.37.14\:8181.cfg 
+$ cat file_64.103.37.14\:8181.cfg 
 show ip int brief
 config t
 interface loopback 75
@@ -124,7 +124,7 @@ exit
 # Results of the program
 
 ```
-îº§ go run main.go 
+$ go run main.go 
 Connecting to Group1 hosts
 [131.226.217.143:22]
 
