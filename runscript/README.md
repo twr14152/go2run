@@ -49,7 +49,7 @@ Eg.
 - file_core_r1:22.cfg
 - file_10.0.1.100:8181.cfg
  
-By using the "file_" in front of the name your able to use IP address as well has hostnames.
+By using the "file_" in front of the name you're able to use IP address as well has hostnames.
 
 # In summary to use this package you will need to do the following:
 ```
