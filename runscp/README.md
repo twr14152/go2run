@@ -20,13 +20,18 @@ import (
 )
 
 func main() {
+	// You can add as many hosts as needed
 	fmt.Println("scp file to:sandbox-iosxe-latest-1.cisco.com")
 	runscp.RunScp("username1", "password1", "sandbox-iosxe-latest-1.cisco.com:22", "testfile.txt")
+	//
+	fmt.Println("scp file to:ios-xe-mgmt.cisco.com")
+	runscp.RunScp("username2", "password2", "ios-xe-mgmt.cisco.com:8181", "testfile.txt")
 
 }
 
 ```
 # File to transfer:
+
 In this example we created testfile.txt. Its in the same directory as main.go file.
 
 ```
@@ -54,12 +59,15 @@ $
 
 # Run the script
 ```
-$ go run main.go 
+$  go run main.go
 scp file to:sandbox-iosxe-latest-1.cisco.com
 success
-
+scp file to:ios-xe-mgmt.cisco.com
+success
 ```
 # Verify the results
+
+To keep this short only showing verification of one host.
 ```
 $ ssh developer@sandbox-iosxe-latest-1.cisco.com
 The authenticity of host 'sandbox-iosxe-latest-1.cisco.com (131.226.217.143)' can't be established.
