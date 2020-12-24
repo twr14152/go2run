@@ -10,7 +10,7 @@ go get github.com/twr14152/go2run/runcli
 
 ```
 
-In this example we have 3 devices 2 ios-xe and 1 nx-os. The login parameters for the ios-xe are the same and the nxos is different. The app will then prompt you to enter the commands you want. In your code all you will need to do is import "runcli" and add your login credentials to runcli.RunCli() for each group. The app will then prompt you for the commands to run.
+In this example we have one ios-xe and one nx-os device. The login parameters for the ios-xe and the nxos is different. The app will then prompt you to enter the commands you want. In your code all you will need to do is import "runcli" and add your login credentials to runcli.RunCli() for each group. The app will then prompt you for the commands to run.
 
 Sample code:
 
@@ -30,7 +30,7 @@ func main() {
 	runcli.RunCli("username2", "password2")
 }
 ```
-The one thing you will need to do when you get prompted is to provide the hostname with the port you're connecting on.
+The one thing you will need to do when you get prompted is to provide the hostname or ip address with the port you're connecting on.
 
 For example:
 ```
