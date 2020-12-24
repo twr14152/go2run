@@ -1,8 +1,9 @@
 # runscript
 The goal of this package is to allow the user to use host and cmd files to change and validate device configuration.
-You will simply need to import runscript into your main.go file and call the runscript.Connect() to connect to you devices.
-All you will need is the username password and the name of the hostfile you create with those common login parameters.
-If you have multiple login parameters create multiple hostfiles grouping those with common parameters.
+You will simply need to import runscript into your main.go file and call the runscript.Connect() to connect to your devices.
+All you will need is the username password and the name of the hostfile you create with those devices with common login parameters. If you have multiple login parameters create multiple hostfiles grouping those with common parameters.
+
+Add as many hosts as you need to the hostfiles. Only one was used for demonstration purposes.
 
 # To install: 
 ```
@@ -77,6 +78,15 @@ $
 ```
 
 # host_files
+
+add as many hosts as you need per group. 
+```
+vi hostfile1.txt
+hostname1:<port>
+hostname2:<port>
+...
+```
+demo hosts
 ```
 $ cat group1.txt 
 131.226.217.143:22
