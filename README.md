@@ -1,8 +1,8 @@
 # go2run
 
-This repo holds packages that can be used in your code to easily manage network devices. The code was written in such away that it allows the user to determine the degree to which they influence their devices. At the time of publishing only Cisco Devnet devices IOS-XE and NXOS have been tested. These packages DO NOT play well with go.mod. As a work-a-round to that issue delete go.mod and issue go get on the repo desired and run your code. 
+This repo holds packages that can be used in your code to easily manage network devices. The code was written in such away that it allows the user to determine the degree to which they influence their devices. At the time of publishing only Cisco Devnet devices IOS-XE and NXOS have been tested. 
 
-I will revisit the go.mod issues as time permits. (1/30/2022)
+Fixed the issue with go.mod
 
 # runcli 
 - Package that allow users to login to groups of devices and interactively issuing both show and config commands
