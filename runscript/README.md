@@ -5,7 +5,8 @@ You will simply need to import runscript into your main.go file or what ever you
 
 # To install: 
 ```
-$ go get github.com/twr14152/go2run/runscript
+$rm go.mod 
+$go get github.com/twr14152/go2run/runscript
 
 ```
 sample code:
