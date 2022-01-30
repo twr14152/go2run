@@ -1,4 +1,4 @@
-module runcli
+module github.com/twr14152/go2run/runcli
 
 go 1.15
 
