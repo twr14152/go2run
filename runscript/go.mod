@@ -1,4 +1,4 @@
-module runscript
+module github.com/twr14152/go2run/runscript
 
 go 1.15
 
