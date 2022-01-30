@@ -4,7 +4,7 @@ The idea behind this code is that you could quickly gather info from network dev
 When you import this package into your code it will ask you how many devices you want to connect to, as well as what commands you want to run.
 The code will work with show commands as well as configuration commands. Good for gathering info and for minor changes especially in a lab environment.
 
-# To install:
+# To install (If your not using go modules):
 ```
 $go get github.com/twr14152/go2run/runcli
 
@@ -31,6 +31,13 @@ func main() {
 	runcli.RunCli("username2", "password2")
 }
 ```
+# When using Go Modules you need to issue the following commands to install go2run repo:
+```
+$go mod init <executible_name>
+$go mod tidy  // This will actually pull the files from the repo in based off import statements in main.go
+```
+
+
 The one thing you will need to do when you get prompted is to provide the hostname or ip address with the port you're connecting on.
 
 For example:
