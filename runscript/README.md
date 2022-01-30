@@ -3,7 +3,7 @@ The goal of this package is to allow the user to use host and cmd files to chang
 You will simply need to import runscript into your main.go file or what ever you decide to call it. Then call the runscript.Connect() to connect to your devices. All you will need is the username password and the name of the hostfile you create with those devices with common login parameters. If you have multiple login parameters create multiple hostfiles grouping those with common parameters and make another function call.
 
 
-# To install: 
+# To install (If your not using go.modules): 
 ```
 $go get github.com/twr14152/go2run/runscript
 
@@ -25,6 +25,11 @@ func main() {
     runscript.Connect("user2", "password2", "group2.txt")
 }
 
+```
+# If your using go modules you need to issue the following commands
+```
+$go mod init <executible_filename>
+$go mod tidy //This will actually download the files listed in the main.go import statements
 ```
 
 You can call the hostfile what ever you want. It is neccesary to include the connecting port in the file.
