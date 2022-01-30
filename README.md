@@ -2,7 +2,7 @@
 
 This repo holds packages that can be used in your code to easily manage network devices. The code was written in such away that it allows the user to determine the degree to which they influence their devices. At the time of publishing only Cisco Devnet devices IOS-XE and NXOS have been tested. 
 
-Fixed the issue with go.mod
+Previous issue with go.mod has been resolved.(01/30/2022)
 
 # runcli 
 - Package that allow users to login to groups of devices and interactively issuing both show and config commands
