@@ -4,10 +4,9 @@ The idea behind this code is that you could quickly gather info from network dev
 When you import this package into your code it will ask you how many devices you want to connect to, as well as what commands you want to run.
 The code will work with show commands as well as configuration commands. Good for gathering info and for minor changes especially in a lab environment.
 
-# To install (does not work with go.mod):
+# To install:
 ```
-1) rm go.mod 
-2) go get github.com/twr14152/go2run/runcli
+$go get github.com/twr14152/go2run/runcli
 
 ```
 
