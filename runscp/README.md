@@ -2,8 +2,9 @@
 
 This package will allow you to scp files to a remote host.
 
-# To install:
+# To install (Does not play well with go.mod):
 ```
+$ rm go.mod
 $ go get github.com/twr14152/go2run/runscp
 ```
 
