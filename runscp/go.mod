@@ -1,4 +1,4 @@
-module runscp
+module github.com/twr14152/go2run/runscp
 
 go 1.15
 
