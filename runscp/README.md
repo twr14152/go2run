@@ -2,7 +2,7 @@
 
 This package will allow you to scp files to a remote host.
 
-# To install:
+# To install (If your not using go modules):
 ```
 $ go get github.com/twr14152/go2run/runscp
 ```
@@ -30,6 +30,12 @@ func main() {
 }
 
 ```
+# If your using go modules you need to issue the following commands
+```
+$go mod init <executible_filename>
+$go mod tidy //This will actually download the files listed in the main.go import statements
+```
+
 # File to transfer:
 
 In this example we created testfile.txt. Its in the same directory as main.go file.
