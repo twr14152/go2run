@@ -27,7 +27,7 @@ func main() {
 ```
 # If your using go modules you need to issue the following commands
 ```
-$go mod init <executible_filename> // this command is unnessary if go.nod file already exists
+$go mod init <executible_filename> // this command is unnessary if go mod file already exists
 $go mod tidy //This will actually download the files listed in the main.go import statements
 ```
 
