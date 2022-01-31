@@ -4,12 +4,6 @@ The idea behind this code is that you could quickly gather info from network dev
 When you import this package into your code it will ask you how many devices you want to connect to, as well as what commands you want to run.
 The code will work with show commands as well as configuration commands. Good for gathering info and for minor changes especially in a lab environment.
 
-# To install (If your not using go modules):
-```
-$go get github.com/twr14152/go2run/runcli
-
-```
-
 
 In this example we have one ios-xe and one nx-os device. The login parameters for the ios-xe and the nxos is different. The app will then prompt you to enter the commands you want. In your code all you will need to do is import "runcli" and add your login credentials to runcli.RunCli() for each group. The app will then prompt you for the commands to run.
 
@@ -31,10 +25,17 @@ func main() {
 	runcli.RunCli("username2", "password2")
 }
 ```
-# When using Go Modules you need to issue the following commands to install go2run repo:
+# If using go modules simply issue the following commands:
 ```
-$go mod init <executible_name>
+$go mod init <_executible_Filename> // if go.mod exists already this command is unneccessary
 $go mod tidy  // This will actually pull the files from the repo in based off import statements in main.go
+
+```
+
+# To install (If your not using go modules):
+```
+$go get github.com/twr14152/go2run/runcli
+
 ```
 
 
