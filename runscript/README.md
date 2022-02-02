@@ -24,8 +24,8 @@ func main() {
 ```
 # If your using go modules you need to issue the following commands
 ```
-$go mod init <executible_filename>
-$go mod tidy //This will actually download the files listed in the main.go import statements
+$go mod init <executible_filename> //
+$go mod tidy //This will actually download the dependency files listed in the main.go import statements
 ```
 
 # To install (If your not using go.modules): 
