@@ -28,7 +28,7 @@ func main() {
 # If using go modules simply issue the following commands:
 ```
 $go mod init <_executible_Filename> // if go.mod exists already this command is unneccessary
-$go mod tidy  // This will actually pull the files from the repo in based off import statements in main.go
+$go mod tidy  // This will actually pull the dependency files from the repo based off import statements in main.go
 
 ```
 
