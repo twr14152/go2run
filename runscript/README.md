@@ -16,7 +16,7 @@ import (
 
 func main() {
     fmt.Println("Connecting to Group1 hosts")
-    runscript.Connect("USER", "PASS1", "group1.txt")
+    runscript.Connect("USER1", "PASS1", "group1.txt")
     fmt.Println("Connecting to Group2 hosts")
     runscript.Connect("USER2", "PASS2", "group2.txt")
 }
