@@ -32,12 +32,6 @@ $go mod tidy  // This will actually pull the dependency files from the repo base
 
 ```
 
-# To install (If your not using go modules):
-```
-$go get github.com/twr14152/go2run/runcli
-
-```
-
 
 The one thing you will need to do when you get prompted is to provide the hostname or ip address with the port you're connecting on.
 
