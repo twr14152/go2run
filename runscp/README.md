@@ -31,11 +31,6 @@ $go mod init <executible_filename> // this command is unnessary if go mod file a
 $go mod tidy //This will actually download the dependency files listed in the main.go import statements
 ```
 
-# To install (If your not using go modules):
-```
-$ go get github.com/twr14152/go2run/runscp
-```
-
 # File to transfer:
 
 In this example we created testfile.txt. Its in the same directory as main.go file.
