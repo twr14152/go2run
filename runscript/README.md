@@ -29,11 +29,6 @@ $go mod init <executible_filename> // if go.mod exists already this command is u
 $go mod tidy //This will actually download the dependency files listed in the main.go import statements
 ```
 
-# To install (If your not using go.modules): 
-```
-$go get github.com/twr14152/go2run/runscript
-
-```
 
 You can call the hostfile what ever you want. It is neccesary to include the connecting port in the file.
 
