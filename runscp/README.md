@@ -25,7 +25,7 @@ func main() {
 }
 
 ```
-# To install the files needed for this repo
+# To install the files used in this repo
 ```
 $go mod init <executible_filename> // this command is unnessary if go.mod file already exists
 $go mod tidy //This will actually download the dependency files listed in the main.go import statements
