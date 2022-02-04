@@ -16,10 +16,11 @@ import (
 
 func main() {
     fmt.Println("Connecting to Group1 hosts")
-    runscript.Connect("user1", "password1", "group1.txt")
+    runscript.Connect("USER", "PASS1", "group1.txt")
     fmt.Println("Connecting to Group2 hosts")
-    runscript.Connect("user2", "password2", "group2.txt")
+    runscript.Connect("USER2", "PASS2", "group2.txt")
 }
+
 
 ```
 # If your using go modules you need to issue the following commands
@@ -73,12 +74,14 @@ Example provided:
 
 ```
 $ ls -l
-total 20
--rw-r--r-- 1 runner runner 194 Dec 20 15:52 file_131.226.217.143:22.cfg
--rw-r--r-- 1 runner runner 185 Dec 20 16:51 file_64.103.37.14:8181.cfg
--rw-r--r-- 1 runner runner  18 Dec 20 15:53 group1.txt
--rw-r--r-- 1 runner runner  18 Dec 20 16:44 group2.txt
--rw-r--r-- 1 runner runner 318 Dec 20 16:55 main.go
+total 4672
+-rw-r--r-- 1 runner runner     267 Feb  4 11:27 file_sandbox-iosxe-latest-1.cisco.com:22.cfg
+-rw-r--r-- 1 runner runner     264 Feb  4 11:25 file_sandbox-nxos-1.cisco.com:22.cfg
+-rw-r--r-- 1 runner runner     102 Feb  2 13:07 go.mod
+-rw-r--r-- 1 runner runner    1280 Feb  2 13:07 go.sum
+-rw-r--r-- 1 runner runner      36 Feb  4 11:22 group1.txt
+-rw-r--r-- 1 runner runner      28 Feb  2 21:40 group2.txt
+-rw-r--r-- 1 runner runner     310 Feb  4 11:33 main.go
 $
 ```
 
@@ -94,44 +97,64 @@ hostname2:<port>
 demo hosts
 ```
 $ cat group1.txt 
-131.226.217.143:22
-
+sandbox-iosxe-latest-1.cisco.com:22
 $ cat group2.txt 
-64.103.37.14:8181
+sandbox-nxos-1.cisco.com:22 
  
 ```
 # cmds for host1
 ```
-$ cat file_131.226.217.143\:22.cfg 
-sh ip int brief
+$ cat file_sandbox-iosxe-latest-1.cisco.com\:22.cfg 
+term len 0
+
+show interface description | inc Lo
+
 config t
-interface loopback74
- description script_test_iosxe_dev
- ip address 74.74.74.74 255.255.255.255
- exit
+int loopback 70
+description go2run_test_script_loop70
 exit
-show ip int brief
+exit
+
+
+show interface description  | inc Lo
 config t
-no interface loopback 74
+int loopback70
+no description
+no int loopback 70
 exit
+show interface description | inc Lo
+
 exit
+
 $
 ```
 
 # cmds for host2
 ```
-$ cat file_64.103.37.14\:8181.cfg 
-show ip int brief
-config t
-interface loopback 75
- description script_test_nxos_dev
- ip address 75.75.75.75/32
+$cat file_sandbox-nxos-1.cisco.com\:22.cfg 
+show interface description | inc Lo
+
+config 
+
+interface loopback 72
+description go2run_testscript
 exit
 exit
-show ip int brief
-config t
- no interface loopback 75
- exit
+
+
+show run interface loopback 72
+show interface description | inc Lo
+
+config
+interface loopback 72
+no description
+no interface loopback 72
+exit
+
+
+show run intface loopback 72
+show interface description | inc Lo
+
 exit
 ```
 
@@ -139,12 +162,12 @@ exit
 # Results of the program
 
 ```
-$ go run main.go 
+$ go run main.go
 Connecting to Group1 hosts
-[131.226.217.143:22]
+[sandbox-iosxe-latest-1.cisco.com:22]
 
 
-This is the config file named:file_131.226.217.143:22.cfg
+This is the config file named:file_sandbox-iosxe-latest-1.cisco.com:22.cfg
 
 
 
@@ -159,69 +182,180 @@ The following programmability features are already enabled:
 Thanks for stopping by.
 
 
-csr1000v-1#sh ip int brief
-Interface              IP-Address      OK? Method Status                Protocol
-GigabitEthernet1       10.10.20.48     YES NVRAM  up                    up      
-GigabitEthernet2       unassigned      YES NVRAM  administratively down down    
-GigabitEthernet3       unassigned      YES NVRAM  administratively down down    
-Loopback105            192.168.1.1     YES manual up                    up      
-Loopback106            192.168.1.2     YES manual up                    up      
+csr1000v-1#term len 0
+csr1000v-1#
+csr1000v-1#show interface description | inc Lo
+Lo100                          up             up       
+Lo123                          up             up       Configured by NETCONF
+Lo1234                         up             up       Added with RESTCONF
+Lo1235                         up             up       Added with RESTCONF
+Lo1236                         up             up       Added with RESTCONF
+Lo1237                         up             up       Added with goues
+Lo1238                         up             up       Added with RESTCONF1
+csr1000v-1#
 csr1000v-1#config t
 Enter configuration commands, one per line.  End with CNTL/Z.
-csr1000v-1(config)#interface loopback74
-csr1000v-1(config-if)# description script_test_iosxe_dev
-csr1000v-1(config-if)# ip address 74.74.74.74 255.255.255.255
-csr1000v-1(config-if)# exit
+csr1000v-1(config)#int loopback 70
+csr1000v-1(config-if)#description go2run_test_script_loop70
+csr1000v-1(config-if)#exit
 csr1000v-1(config)#exit
-csr1000v-1#show ip int brief
-Interface              IP-Address      OK? Method Status                Protocol
-GigabitEthernet1       10.10.20.48     YES NVRAM  up                    up      
-GigabitEthernet2       unassigned      YES NVRAM  administratively down down    
-GigabitEthernet3       unassigned      YES NVRAM  administratively down down    
-Loopback74             74.74.74.74     YES manual up                    up      
-Loopback105            192.168.1.1     YES manual up                    up      
-Loopback106            192.168.1.2     YES manual up                    up      
+csr1000v-1#
+csr1000v-1#
+csr1000v-1#show interface description  | inc Lo
+Lo70                           up             up       go2run_test_script_loop70
+Lo100                          up             up       
+Lo123                          up             up       Configured by NETCONF
+Lo1234                         up             up       Added with RESTCONF
+Lo1235                         up             up       Added with RESTCONF
+Lo1236                         up             up       Added with RESTCONF
+Lo1237                         up             up       Added with goues
+Lo1238                         up             up       Added with RESTCONF1
 csr1000v-1#config t
 Enter configuration commands, one per line.  End with CNTL/Z.
-csr1000v-1(config)#no interface loopback 74
+csr1000v-1(config)#int loopback70
+csr1000v-1(config-if)#no description
+csr1000v-1(config-if)#no int loopback 70
 csr1000v-1(config)#exit
+csr1000v-1#show interface description | inc Lo
+Lo100                          up             up       
+Lo123                          up             up       Configured by NETCONF
+Lo1234                         up             up       Added with RESTCONF
+Lo1235                         up             up       Added with RESTCONF
+Lo1236                         up             up       Added with RESTCONF
+Lo1237                         up             up       Added with goues
+Lo1238                         up             up       Added with RESTCONF1
+csr1000v-1#
 csr1000v-1#exit
 Connecting to Group2 hosts
-[64.103.37.14:8181]
+[sandbox-nxos-1.cisco.com:22]
 
 
-This is the config file named:file_64.103.37.14:8181.cfg
+This is the config file named:file_sandbox-nxos-1.cisco.com:22.cfg
 
 
 
 
+
+this is my exec banner
+that contains a multiline
+string
 
 stty: standard input: Inappropriate ioctl for device
+Lo0                      TEST NXAPI-REST
+Lo1                      --
+Lo2                      --
+Lo3                      --
+Lo4                      --
+Lo5                      --
+Lo6                      --
+Lo7                      --
+Lo10                     test
+Lo12                     Sample Network Route Injection
+Lo13                     Sample Network Route Injection
+Lo14                     Sample Network Route Injection
+Lo20                     My Learning Lab Loopback Home
+Lo21                     MSN Learning Lab Loopback
+Lo24                     --
+Lo50                     test123
+Lo55                     Full intf config via NETCONF
+Lo99                     Full intf config via NETCONF
+Lo100                    loopback int for routing
+Lo101                    --
+Lo123                    test
+Lo201                    --
+Lo300                    --
+Lo400                    IPv6 ADDRESS
+Lo432                    Configured using OpenConfig Model
+Lo555                    Configured by Salt-Nornir using NETCONF
+Lo666                    Loopback 666
+Lo667                    Loopback 667
+Lo737                    Full intf config via NETCONF
+Lo778                    Full intf config via NETCONF
+Lo980                    Full intf config via NETCONF
+Lo987                    Configured using OpenConfig Model
+Lo999                    Full intf config via NETCONF
+Lo1000                   --
 
-IP Interface Status for VRF "default"(1)
-Interface            IP Address      Interface Status
-Vlan100              172.16.100.1    protocol-down/link-down/admin-down 
-Vlan101              172.16.101.1    protocol-down/link-down/admin-down 
-Vlan102              172.16.102.1    protocol-down/link-down/admin-down 
-Vlan103              172.16.103.1    protocol-down/link-down/admin-down 
-Vlan104              172.16.104.1    protocol-down/link-down/admin-down 
-Vlan105              172.16.105.1    protocol-down/link-down/admin-down 
-Lo1                  172.16.0.1      protocol-up/link-up/admin-up       
-Lo98                 10.98.98.1      protocol-up/link-up/admin-up       
-Lo99                 10.99.99.1      protocol-up/link-up/admin-up       
-Eth1/5               172.16.1.1      protocol-down/link-down/admin-down 
+!Command: show running-config interface loopback72
+!Running configuration last done at: Fri Feb  4 00:02:25 2022
+!Time: Fri Feb  4 00:02:25 2022
 
-IP Interface Status for VRF "default"(1)
-Interface            IP Address      Interface Status
-Vlan100              172.16.100.1    protocol-down/link-down/admin-down 
-Vlan101              172.16.101.1    protocol-down/link-down/admin-down 
-Vlan102              172.16.102.1    protocol-down/link-down/admin-down 
-Vlan103              172.16.103.1    protocol-down/link-down/admin-down 
-Vlan104              172.16.104.1    protocol-down/link-down/admin-down 
-Vlan105              172.16.105.1    protocol-down/link-down/admin-down 
-Lo1                  172.16.0.1      protocol-up/link-up/admin-up       
-Lo75                 75.75.75.75     protocol-up/link-up/admin-up       
-Lo98                 10.98.98.1      protocol-up/link-up/admin-up       
-Lo99                 10.99.99.1      protocol-up/link-up/admin-up       
-Eth1/5               172.16.1.1      protocol-down/link-down/admin-down 
+version 9.3(3) Bios:version  
 
+interface loopback72
+  description go2run_testscript
+
+Lo0                      TEST NXAPI-REST
+Lo1                      --
+Lo2                      --
+Lo3                      --
+Lo4                      --
+Lo5                      --
+Lo6                      --
+Lo7                      --
+Lo10                     test
+Lo12                     Sample Network Route Injection
+Lo13                     Sample Network Route Injection
+Lo14                     Sample Network Route Injection
+Lo20                     My Learning Lab Loopback Home
+Lo21                     MSN Learning Lab Loopback
+Lo24                     --
+Lo50                     test123
+Lo55                     Full intf config via NETCONF
+Lo72                     go2run_testscript
+Lo99                     Full intf config via NETCONF
+Lo100                    loopback int for routing
+Lo101                    --
+Lo123                    test
+Lo201                    --
+Lo300                    --
+Lo400                    IPv6 ADDRESS
+Lo432                    Configured using OpenConfig Model
+Lo555                    Configured by Salt-Nornir using NETCONF
+Lo666                    Loopback 666
+Lo667                    Loopback 667
+Lo737                    Full intf config via NETCONF
+Lo778                    Full intf config via NETCONF
+Lo980                    Full intf config via NETCONF
+Lo987                    Configured using OpenConfig Model
+Lo999                    Full intf config via NETCONF
+Lo1000                   --
+Syntax error while parsing 'show run intface loopback 72'
+
+Lo0                      TEST NXAPI-REST
+Lo1                      --
+Lo2                      --
+Lo3                      --
+Lo4                      --
+Lo5                      --
+Lo6                      --
+Lo7                      --
+Lo10                     test
+Lo12                     Sample Network Route Injection
+Lo13                     Sample Network Route Injection
+Lo14                     Sample Network Route Injection
+Lo20                     My Learning Lab Loopback Home
+Lo21                     MSN Learning Lab Loopback
+Lo24                     --
+Lo50                     test123
+Lo55                     Full intf config via NETCONF
+Lo99                     Full intf config via NETCONF
+Lo100                    loopback int for routing
+Lo101                    --
+Lo123                    test
+Lo201                    --
+Lo300                    --
+Lo400                    IPv6 ADDRESS
+Lo432                    Configured using OpenConfig Model
+Lo555                    Configured by Salt-Nornir using NETCONF
+Lo666                    Loopback 666
+Lo667                    Loopback 667
+Lo737                    Full intf config via NETCONF
+Lo778                    Full intf config via NETCONF
+Lo980                    Full intf config via NETCONF
+Lo987                    Configured using OpenConfig Model
+Lo999                    Full intf config via NETCONF
+Lo1000                   --
+$
+$
+```
