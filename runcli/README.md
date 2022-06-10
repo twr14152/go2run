@@ -33,7 +33,7 @@ $go mod tidy  // This will actually pull the dependency files from the repo base
 ```
 
 
-The one thing you will need to do when you get prompted is to provide the hostname or ip address **with the port** you're connecting on.
+The one thing you will need to do when you get prompted is to provide the hostname or ip address with the port you're connecting on.
 
 For example:
 ```
