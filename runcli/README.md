@@ -104,7 +104,7 @@ Eth1/5               172.16.1.1      protocol-down/link-down/admin-down
 
 # Running code with configuration commands + validation commands.
 
-Using the same testruncli.go file we will add loopback75 to fastxe csr and loopback76 to nxos device.
+Using the same test runcli.go file we will add loopback75 to fastxe csr and loopback76 to nxos device.
 
 ```
  go run main.go 
