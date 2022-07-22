@@ -40,7 +40,10 @@ var pass string
 var hostfile string
 
 func loginHosts(hostfile string) {
-	hf, _ := os.Open(hostfile)
+	hf, err := os.Open(hostfile)
+	if err != nil{
+		log.Fatal("Failed to Open file: ", err)
+	}
 	scanner := bufio.NewScanner(hf)
 	scanner.Split(bufio.ScanLines)
 	for scanner.Scan() {
