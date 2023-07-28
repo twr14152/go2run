@@ -59,12 +59,12 @@ func RunCli(user, pass string) {
 
 	for host, commands := range hostData {
 		config := &ssh.ClientConfig{
+			Config: ssh.Config{
+				Ciphers: []string{"aes128-cbc"},
+			},
 			User: user,
 			Auth: []ssh.AuthMethod{
 				ssh.Password(pass),
-			},
-			Config: ssh.Config{
-				Ciphers: []string{"aes128-cbc"},
 			},
 			HostKeyCallback: ssh.InsecureIgnoreHostKey(),
 		}
