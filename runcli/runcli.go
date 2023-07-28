@@ -63,6 +63,9 @@ func RunCli(user, pass string) {
 			Auth: []ssh.AuthMethod{
 				ssh.Password(pass),
 			},
+			Config: ssh.Config{
+				Ciphers: []string{"aes128-cbc"},
+				},
 			HostKeyCallback: ssh.InsecureIgnoreHostKey(),
 		}
 		conn, err := ssh.Dial("tcp", host, config)
