@@ -55,8 +55,11 @@ func loginHosts(hostfile string) {
 func Connect(user, pass, hostfile string) {
 	loginHosts(hostfile)
 	for _, host := range hostList {
-
 		config := &ssh.ClientConfig{
+			//Added custom cipher list to allow legacy devices to connect as well
+			Config: ssh.Config{
+				Ciphers: []string{"aes128-ctr","aes192-ctr","aes256-ctr","aes128-cbc"},
+			},
 			User: user,
 			Auth: []ssh.AuthMethod{
 				ssh.Password(pass),
