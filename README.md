@@ -17,3 +17,4 @@ The ssh cipher have been modified so that legacy devices can be connected to as 
 # runscp
 - This package will allow users to scp file over to a remote device
 
+Currently tested against Cisco Devnet Environment and gns3 home lab using old 7200k9 image. Looking to expand.
