@@ -44,6 +44,10 @@ func RunScp(user, pass, host, file string) {
 	src.Close()
 
 	client, err := ssh.Dial("tcp", host, &ssh.ClientConfig{
+		//Added custom cipher list to allow legacy devices to connect as well
+		Config: ssh.Config{
+			Ciphers: []string{"aes128-ctr","aes192-ctr","aes256-ctr","aes128-cbc"},
+		},
 		User: user,
 		Auth: []ssh.AuthMethod{
 			ssh.Password(pass),
