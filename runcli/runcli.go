@@ -59,7 +59,7 @@ func RunCli(user, pass string) {
 
 	for host, commands := range hostData {
 		config := &ssh.ClientConfig{
-			//Testing old Cipher capabilities for old (not up-to-date devices)
+			//created a custom cipher list to allow legacy devices to connect
 			Config: ssh.Config{
 				Ciphers: []string{"aes128-ctr","aes192-ctr","aes256-ctr","aes128-cbc"},
 			},
