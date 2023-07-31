@@ -45,7 +45,10 @@ func commands() map[string][]string {
 		fmt.Println()
 		reader := bufio.NewReader(os.Stdin)
 		fmt.Print("cmds: ")
-		cmds, _ := reader.ReadString('\n')
+		cmds, err := reader.ReadString('\n')
+		if err != nil {
+			log.Fatal(err)
+		}
 		s := strings.Split(cmds, ",")
 		fmt.Println()
 		hostCmds[host] = s
