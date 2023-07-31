@@ -80,7 +80,7 @@ func RunCli(user, pass string) {
 		if err != nil {
 			log.Fatal("Failed to create session: ", err)
 		}
-		stdin, _ := sess.StdinPipe()
+		stdin, err := sess.StdinPipe()
 		sess.Stdout = os.Stdout
 		sess.Stderr = os.Stderr
 		sess.Shell()
