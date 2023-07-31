@@ -83,7 +83,10 @@ func Connect(user, pass, hostfile string) {
 		// cmds file should use host.cfg name standard
 		fmt.Println("\n\nThis is the config file named:" + "file_" + host + ".cfg")
 		fmt.Printf("\n\n\n\n")
-		cmds, _ := os.Open("file_" + host + ".cfg")
+		cmds, err := os.Open("file_" + host + ".cfg")
+		if err != nil {
+			log.Fatal(err)
+		}
 		scanner := bufio.NewScanner(cmds)
 		scanner.Split(bufio.ScanLines)
 		var lines []string
