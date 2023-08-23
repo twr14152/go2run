@@ -5,7 +5,7 @@ When you import this package into your code it will ask you how many devices you
 The code will work with show commands as well as configuration commands. Good for gathering info and for minor changes especially in a lab environment.
 
 
-In this example we have one ios-xe and one nx-os device. The login parameters for the ios-xe and the nxos is different. The app will then prompt you to enter the commands you want. In your code all you will need to do is import "runcli" and add your login credentials to runcli.RunCli() for each group. The app will then prompt you for the commands to run.
+In this example we have one ios-xe and one nx-os device. The login parameters for the ios-xe and the nxos is different. The app will then prompt you to enter the commands you want. In your code all you will need to do is import "github.com/twr14152/go2run/runcli" and add your login credentials to runcli.RunCli() for each group. The app will then prompt you for the commands to run.
 
 Sample code:
 
