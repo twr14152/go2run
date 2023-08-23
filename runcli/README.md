@@ -49,39 +49,52 @@ host2:8181
 Remember when you give the host device to add the port your connecting on.
 
 ```
- go run main.go 
-Connecting to ios-xe devices: 
+ go run main.go
+Connecting to ios-xe devices:
 Number of hosts: 1
-Hostname: 131.226.217.143:22
+Hostname: sandbox-iosxe-recomm-1.cisco.com:22
 
-cmds: show ip int brief  
+cmds: show ip int brief, show version | inc Ver
 
 
 Welcome to the DevNet Sandbox for CSR1000v and IOS XE
- 
+
 The following programmability features are already enabled:
   - NETCONF
   - RESTCONF
- 
-Thanks for stopping by.
 
+Thanks for stopping by.
 
 
 csr1000v-1#term len 0
 csr1000v-1#show ip int brief
 Interface              IP-Address      OK? Method Status                Protocol
 GigabitEthernet1       10.10.20.48     YES NVRAM  up                    up      
-GigabitEthernet2       unassigned      YES NVRAM  administratively down down    
-GigabitEthernet3       unassigned      YES NVRAM  administratively down down    
-Loopback105            192.168.1.1     YES manual up                    up      
-Loopback106            192.168.1.2     YES manual up                    up      
+GigabitEthernet1.10    unassigned      YES other  deleted               down    
+GigabitEthernet2       172.16.1.2      YES manual up                    up      
+GigabitEthernet3       200.200.210.199 YES manual up                    up      
+Loopback20             10.1.1.1        YES other  up                    up      
+Loopback100            192.168.100.100 YES manual up                    up      
+Loopback222            192.0.2.222     YES manual up                    up      
+Loopback223            192.0.2.223     YES manual up                    up      
+Loopback409            172.16.30.122   YES other  up                    up      
+Loopback12345          9.9.9.9         YES manual up                    up      
+Loopback1234567        unassigned      YES unset  up                    up      
+Loopback2110999        178.18.90.1     YES other  up                    up      
+nve1                   unassigned      YES unset  down                  down    
+csr1000v-1# show version | inc Ver
+Cisco IOS XE Software, Version 16.09.03
+Cisco IOS Software [Fuji], Virtual XE Software (X86_64_LINUX_IOSD-UNIVERSALK9-M), Version 16.9.3, RELEASE SOFTWARE (fc2)
+licensed under the GNU General Public License ("GPL") Version 2.0.  The
+software code licensed under GPL Version 2.0 is free software that comes
+GPL code under the terms of GPL Version 2.0.  For more details, see the
 csr1000v-1#
 csr1000v-1#exit
-Connecting to nxos devices: 
+Connecting to nxos device:
 Number of hosts: 1
-Hostname: 64.103.37.14:8181
+Hostname: sbx-nxos-mgmt.cisco.com:22
 
-cmds: show ip int brief
+cmds: show ip int brief, show int status | inc connected
 
 
 stty: standard input: Inappropriate ioctl for device
@@ -99,7 +112,21 @@ Lo1                  172.16.0.1      protocol-up/link-up/admin-up
 Lo98                 10.98.98.1      protocol-up/link-up/admin-up       
 Lo99                 10.99.99.1      protocol-up/link-up/admin-up       
 Eth1/5               172.16.1.1      protocol-down/link-down/admin-down 
- 
+mgmt0         DO NOT TOUCH CONFI connected routed    full    1000    --         
+Eth1/2        --                 connected trunk     full    1000    10g        
+Eth1/3        --                 connected 1         full    1000    10g        
+Eth1/4        --                 connected 1         full    1000    10g        
+Po11          --                 connected trunk     full    1000    --         
+Lo0           --                 connected routed    auto    auto    --         
+Lo1           --                 connected routed    auto    auto    --         
+Lo30          My Learning Lab Lo connected routed    auto    auto    --         
+Lo98          Configured using O connected routed    auto    auto    --         
+Lo99          Full intf config v connected routed    auto    auto    --         
+Lo100         Full intf config v connected routed    auto    auto    --         
+Lo122         --                 connected routed    auto    auto    --         
+Lo200         MASSIVO            connected routed    auto    auto    --         
+Vlan402       --                 connected routed    auto    auto    --
+$ 
 ```
 
 
