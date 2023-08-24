@@ -55,7 +55,7 @@ By using the "file_" in front of the name you're able to use IP address as well 
 
 # In summary to use this package you will need to do the following:
 ```
-- Import runscript into main.go
+- Import "github.com/twr14152/go2run/runscript" into main.go
 - Then use runscript.Connect("username", "password", "hostsfile.txt") to your devices 
 - Create commands files for each device USING THE FORMAT PROVIDED.
 - Create hostfile grouping those hosts that share common login parameters
