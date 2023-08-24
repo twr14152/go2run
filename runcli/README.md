@@ -21,6 +21,7 @@ import (
 func main() {
 	fmt.Println("Connecting to ios-xe devices:")
 	runcli.RunCli("username1", "password1")
+        fmt.Printf("\n\n#######################\n\n")
 	fmt.Println("\n\n\nConnecting to nxos device:")
 	runcli.RunCli("username2", "password2")
 }
@@ -41,6 +42,7 @@ host1:22
 
 host2:8181
 
+x.x.x.x:22
 
 ```
 
@@ -49,12 +51,12 @@ host2:8181
 Remember when you give the host device to add the port you're connecting on.
 
 ```
- go run main.go
+go run main.go 
 Connecting to ios-xe devices:
 Number of hosts: 1
-Hostname: sandbox-iosxe-recomm-1.cisco.com:22
+Hostname: iosxe:22
 
-cmds: show ip int brief, show version | inc Ver
+cmds: show ip route, show ip int brief
 
 
 Welcome to the DevNet Sandbox for CSR1000v and IOS XE
@@ -66,67 +68,103 @@ The following programmability features are already enabled:
 Thanks for stopping by.
 
 
+
 csr1000v-1#term len 0
-csr1000v-1#show ip int brief
+csr1000v-1#show ip route
+Codes: L - local, C - connected, S - static, R - RIP, M - mobile, B - BGP
+       D - EIGRP, EX - EIGRP external, O - OSPF, IA - OSPF inter area 
+       N1 - OSPF NSSA external type 1, N2 - OSPF NSSA external type 2
+       E1 - OSPF external type 1, E2 - OSPF external type 2
+       i - IS-IS, su - IS-IS summary, L1 - IS-IS level-1, L2 - IS-IS level-2
+       ia - IS-IS inter area, * - candidate default, U - per-user static route
+       o - ODR, P - periodic downloaded static route, H - NHRP, l - LISP
+       a - application route
+       + - replicated route, % - next hop override, p - overrides from PfR
+
+Gateway of last resort is 10.10.20.254 to network 0.0.0.0
+
+S*    0.0.0.0/0 [1/0] via 10.10.20.254, GigabitEthernet1
+      10.0.0.0/8 is variably subnetted, 7 subnets, 2 masks
+C        10.0.0.0/24 is directly connected, GigabitEthernet2
+L        10.0.0.100/32 is directly connected, GigabitEthernet2
+C        10.2.1.1/32 is directly connected, Loopback987
+C        10.10.20.0/24 is directly connected, GigabitEthernet1
+L        10.10.20.48/32 is directly connected, GigabitEthernet1
+C        10.255.255.0/24 is directly connected, GigabitEthernet2
+L        10.255.255.100/32 is directly connected, GigabitEthernet2
+      88.0.0.0/8 is variably subnetted, 2 subnets, 2 masks
+C        88.88.88.0/24 is directly connected, Loopback88
+L        88.88.88.88/32 is directly connected, Loopback88
+      99.0.0.0/8 is variably subnetted, 2 subnets, 2 masks
+C        99.99.99.0/24 is directly connected, Loopback99
+L        99.99.99.100/32 is directly connected, Loopback99
+      192.168.100.0/32 is subnetted, 1 subnets
+C        192.168.100.1 is directly connected, Loopback203
+csr1000v-1# show ip int brief
 Interface              IP-Address      OK? Method Status                Protocol
 GigabitEthernet1       10.10.20.48     YES NVRAM  up                    up      
-GigabitEthernet1.10    unassigned      YES other  deleted               down    
-GigabitEthernet2       172.16.1.2      YES manual up                    up      
-GigabitEthernet3       200.200.210.199 YES manual up                    up      
-Loopback20             10.1.1.1        YES other  up                    up      
-Loopback100            192.168.100.100 YES manual up                    up      
-Loopback222            192.0.2.222     YES manual up                    up      
-Loopback223            192.0.2.223     YES manual up                    up      
-Loopback409            172.16.30.122   YES other  up                    up      
-Loopback12345          9.9.9.9         YES manual up                    up      
-Loopback1234567        unassigned      YES unset  up                    up      
-Loopback2110999        178.18.90.1     YES other  up                    up      
-nve1                   unassigned      YES unset  down                  down    
-csr1000v-1# show version | inc Ver
-Cisco IOS XE Software, Version 16.09.03
-Cisco IOS Software [Fuji], Virtual XE Software (X86_64_LINUX_IOSD-UNIVERSALK9-M), Version 16.9.3, RELEASE SOFTWARE (fc2)
-licensed under the GNU General Public License ("GPL") Version 2.0.  The
-software code licensed under GPL Version 2.0 is free software that comes
-GPL code under the terms of GPL Version 2.0.  For more details, see the
+GigabitEthernet2       10.0.0.100      YES other  up                    up      
+GigabitEthernet3       unassigned      YES NVRAM  administratively down down    
+GigabitEthernet3.1     unassigned      YES unset  deleted               down    
+GigabitEthernet3.2     unassigned      YES unset  deleted               down    
+Loopback10             unassigned      YES unset  up                    up      
+Loopback31             unassigned      YES unset  up                    up      
+Loopback88             88.88.88.88     YES other  up                    up      
+Loopback99             99.99.99.100    YES other  up                    up      
+Loopback203            192.168.100.1   YES other  up                    up      
+Loopback987            10.2.1.1        YES other  up                    up      
 csr1000v-1#
 csr1000v-1#exit
-Connecting to nxos device:
-Number of hosts: 1
-Hostname: sbx-nxos-mgmt.cisco.com:22
 
-cmds: show ip int brief, show int status | inc connected
+
+#######################
+
+Connecting to nxos device:
+Number of hosts: 1    
+Hostname: nxos:22
+
+cmds: show ip route, show ip int brief
 
 
 stty: standard input: Inappropriate ioctl for device
 gl_set_term_size: NULL arguments(s).
+IP Route Table for VRF "default"
+'*' denotes best ucast next-hop
+'**' denotes best mcast next-hop
+'[x/y]' denotes [preference/metric]
+'%<string>' in via output denotes VRF <string>
+
+10.98.98.0/24, ubest/mbest: 1/0, attached
+    *via 10.98.98.1, Lo98, [0/0], 3d17h, direct
+10.98.98.1/32, ubest/mbest: 1/0, attached
+    *via 10.98.98.1, Lo98, [0/0], 3d17h, local
+10.99.99.0/24, ubest/mbest: 1/0, attached
+    *via 10.99.99.1, Lo99, [0/0], 3d17h, direct
+10.99.99.1/32, ubest/mbest: 1/0, attached
+    *via 10.99.99.1, Lo99, [0/0], 3d17h, local
+10.131.22.0/24, ubest/mbest: 1/0, attached
+    *via 10.131.22.192, Vlan406, [0/0], 1d00h, direct
+10.131.22.192/32, ubest/mbest: 1/0, attached
+    *via 10.131.22.192, Vlan406, [0/0], 1d00h, local
+110.110.110.111/32, ubest/mbest: 2/0, attached
+    *via 110.110.110.111, Lo110, [0/0], 1d09h, local
+    *via 110.110.110.111, Lo110, [0/0], 1d09h, direct
+172.16.10.0/24, ubest/mbest: 1/0, attached
+    *via 172.16.10.4, Lo1, [0/0], 13:56:54, direct
+172.16.10.4/32, ubest/mbest: 1/0, attached
+    *via 172.16.10.4, Lo1, [0/0], 13:56:54, local
+
 
 IP Interface Status for VRF "default"(1)
 Interface            IP Address      Interface Status
 Vlan100              172.16.100.1    protocol-down/link-down/admin-down 
-Vlan101              172.16.101.1    protocol-down/link-down/admin-down 
-Vlan102              172.16.102.1    protocol-down/link-down/admin-down 
-Vlan103              172.16.103.1    protocol-down/link-down/admin-down 
-Vlan104              172.16.104.1    protocol-down/link-down/admin-down 
-Vlan105              172.16.105.1    protocol-down/link-down/admin-down 
-Lo1                  172.16.0.1      protocol-up/link-up/admin-up       
+Vlan406              10.131.22.192   protocol-up/link-up/admin-up       
+Lo1                  172.16.10.4     protocol-up/link-up/admin-up       
 Lo98                 10.98.98.1      protocol-up/link-up/admin-up       
 Lo99                 10.99.99.1      protocol-up/link-up/admin-up       
+Lo110                110.110.110.111 protocol-up/link-up/admin-up       
 Eth1/5               172.16.1.1      protocol-down/link-down/admin-down 
-mgmt0         DO NOT TOUCH CONFI connected routed    full    1000    --         
-Eth1/2        --                 connected trunk     full    1000    10g        
-Eth1/3        --                 connected 1         full    1000    10g        
-Eth1/4        --                 connected 1         full    1000    10g        
-Po11          --                 connected trunk     full    1000    --         
-Lo0           --                 connected routed    auto    auto    --         
-Lo1           --                 connected routed    auto    auto    --         
-Lo30          My Learning Lab Lo connected routed    auto    auto    --         
-Lo98          Configured using O connected routed    auto    auto    --         
-Lo99          Full intf config v connected routed    auto    auto    --         
-Lo100         Full intf config v connected routed    auto    auto    --         
-Lo122         --                 connected routed    auto    auto    --         
-Lo200         MASSIVO            connected routed    auto    auto    --         
-Vlan402       --                 connected routed    auto    auto    --
-$ 
+pi@RaspPi4:
 ```
 
 
@@ -135,10 +173,10 @@ $
 Using the same test runcli.go file we will add loopback75 to fastxe csr and loopback76 to nxos device.
 
 ```
-go run main.go
+go run main.go 
 Connecting to ios-xe devices:
 Number of hosts: 1
-Hostname: sandbox-iosxe-recomm-1.cisco.com:22
+Hostname: iosxe:22
 
 cmds: config t, interface loopback 110, description runcli_script_iosxe, ip address 110.110.110.110 255.255.255.255, exit, exit, show ip interface brief, show run interface loopback 110
 
@@ -159,9 +197,40 @@ csr1000v-1(config)# interface loopback 110
 csr1000v-1(config-if)# description runcli_script_iosxe
 csr1000v-1(config-if)# ip address 110.110.110.110 255.255.255.255
 csr1000v-1(config-if)# exit
+csr1000v-1(config)# exit
+csr1000v-1# show ip interface brief
+Interface              IP-Address      OK? Method Status                Protocol
+GigabitEthernet1       10.10.20.48     YES NVRAM  up                    up      
+GigabitEthernet2       10.0.0.100      YES other  up                    up      
+GigabitEthernet3       unassigned      YES NVRAM  administratively down down    
+GigabitEthernet3.1     unassigned      YES unset  deleted               down    
+GigabitEthernet3.2     unassigned      YES unset  deleted               down    
+Loopback10             unassigned      YES unset  up                    up      
+Loopback31             unassigned      YES unset  up                    up      
+Loopback88             88.88.88.88     YES other  up                    up      
+Loopback99             99.99.99.100    YES other  up                    up      
+Loopback110            110.110.110.110 YES manual up                    up      
+Loopback203            192.168.100.1   YES other  up                    up      
+Loopback987            10.2.1.1        YES other  up                    up      
+csr1000v-1# show run interface loopback 110
+Building configuration...
+
+Current configuration : 106 bytes
+!
+interface Loopback110
+ description runcli_script_iosxe
+ ip address 110.110.110.110 255.255.255.255
+end
+
+csr1000v-1#
+csr1000v-1#exit
+
+
+#######################
+
 Connecting to nxos device:
 Number of hosts: 1
-Hostname: sbx-nxos-mgmt.cisco.com:22
+Hostname: nxos:22
 
 cmds: config t, interface loopback 110, description runcli_script_nxos, ip address 110.110.110.111/32, exit, exit, show ip int brief, show run interface loopback 110, exit
 
@@ -172,20 +241,16 @@ gl_set_term_size: NULL arguments(s).
 IP Interface Status for VRF "default"(1)
 Interface            IP Address      Interface Status
 Vlan100              172.16.100.1    protocol-down/link-down/admin-down 
-Vlan101              172.16.101.1    protocol-down/link-down/admin-down 
-Vlan102              172.16.102.1    protocol-down/link-down/admin-down 
-Vlan103              172.16.103.1    protocol-down/link-down/admin-down 
-Vlan104              172.16.104.1    protocol-down/link-down/admin-down 
-Vlan105              172.16.105.1    protocol-down/link-down/admin-down 
-Lo1                  172.16.0.1      protocol-up/link-up/admin-up       
+Vlan406              10.131.22.192   protocol-up/link-up/admin-up       
+Lo1                  172.16.10.4     protocol-up/link-up/admin-up       
 Lo98                 10.98.98.1      protocol-up/link-up/admin-up       
 Lo99                 10.99.99.1      protocol-up/link-up/admin-up       
 Lo110                110.110.110.111 protocol-up/link-up/admin-up       
 Eth1/5               172.16.1.1      protocol-down/link-down/admin-down 
 
 !Command: show running-config interface loopback110
-!Running configuration last done at: Sun Aug 20 23:51:25 2023
-!Time: Sun Aug 20 23:51:25 2023
+!Running configuration last done at: Tue Aug 22 09:36:58 2023
+!Time: Tue Aug 22 09:36:58 2023
 
 version 9.3(3) Bios:version  
 
