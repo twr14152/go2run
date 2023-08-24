@@ -59,6 +59,7 @@ By using the "file_" in front of the name you're able to use IP address as well 
 - Then use runscript.Connect("username", "password", "hostsfile.txt") to your devices 
 - Create commands files for each device USING THE FORMAT PROVIDED.
 - Create hostfile grouping those hosts that share common login parameters
+- go mod tidy
 
 ```
 
