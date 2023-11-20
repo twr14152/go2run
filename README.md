@@ -5,7 +5,7 @@ This repo holds packages that can be used in your code to easily manage network 
 The ssh cipher have been modified so that legacy devices can be connected to as well newer devices. This was done by adding aes128-cbc to the list of allowed ciphers. It should be noted that this is considered a vulnerability. If thats a problem for you don't use this code. That said there are a lot of devices out there that cannot have the ciphers upgraded, and they are still being used. You may as well do your best to manage them until they can be replaced. Or if this is a lab, you now should have access to your gear via ssh.
 
 Testing environment for this has been Cisco Devnet always on network devices as well as older Cisco72xx-K9 images used in GNS3.
-Planning to expand to other vendor platforms.
+Planning to expand to other vendor platforms at some point.
 
 
 # runcli 
