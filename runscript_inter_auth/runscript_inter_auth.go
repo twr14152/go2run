@@ -60,7 +60,9 @@ func Connect(user, pass, hostfile string) {
 		if err != nil {
 			log.Fatal("Failed to create session: ", err)
 		}
+		fmt.Println("Started session...")
 		defer sess.Close()
+		fmt.Println("Stating stdin...")
 		stdin, err := sess.StdinPipe()
 		if err != nil {
                         log.Fatal("Failed to connect to remote devices stdin: ", err)
