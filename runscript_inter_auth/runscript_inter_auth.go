@@ -54,6 +54,15 @@ func Connect(user, pass, hostfile string) {
 		if err != nil {
 			log.Fatal("Failed to create session: ", err)
 		}
+		modes := ssh.TerminalModes{
+		ssh.ECHO:          1,     // enable echoing
+		ssh.TTY_OP_ISPEED: 14400, // input speed = 14.4kbaud
+		ssh.TTY_OP_OSPEED: 14400, // output speed = 14.4kbaud
+		}
+		if err := sess.RequestPty("vt100", 80, 40, modes); err != nil {
+			log.Fatalf("request for pseudo terminal failed: %s", err)
+		}
+
 		stdin, err := sess.StdinPipe()
 		if err != nil {
                         log.Fatal("Error inputing data: ", err)
