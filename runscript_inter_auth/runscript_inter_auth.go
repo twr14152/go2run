@@ -15,7 +15,10 @@ var pass string
 var hostfile string
 
 func loginHosts(hostfile string) {
-	hf, _ := os.Open(hostfile)
+	hf, err := os.Open(hostfile)
+        if err != nil{
+		log.Fatal("Failed to Open file: ", err)
+	}
 	scanner := bufio.NewScanner(hf)
 	scanner.Split(bufio.ScanLines)
 	for scanner.Scan() {
@@ -37,7 +40,6 @@ func Connect(user, pass, hostfile string) {
 	)
 	loginHosts(hostfile)
 	for _, host := range hostList {
-
 		config := &ssh.ClientConfig{
 			HostKeyCallback: ssh.InsecureIgnoreHostKey(),
 			User:            user,
@@ -53,13 +55,19 @@ func Connect(user, pass, hostfile string) {
 			log.Fatal("Failed to create session: ", err)
 		}
 		stdin, err := sess.StdinPipe()
+		if err != nil {
+                        log.Fatal("Error inputing data: ", err)
+		}
 		sess.Stdout = os.Stdout
 		sess.Stderr = os.Stderr
 		sess.Shell()
 		// cmds file should use host.cfg name standard
 		fmt.Println("\n\nThis is the config file named:" + "file_" + host + ".cfg")
 		fmt.Printf("\n\n\n\n")
-		cmds, _ := os.Open("file_" + host + ".cfg")
+		cmds, err := os.Open("file_" + host + ".cfg")
+		if err != nil {
+			log.Fatal(err)
+		}
 		scanner := bufio.NewScanner(cmds)
 		scanner.Split(bufio.ScanLines)
 		var lines []string
@@ -67,7 +75,10 @@ func Connect(user, pass, hostfile string) {
 			lines = append(lines, scanner.Text())
 		}
 		cmds.Close()
-		for _, line := range lines {
+		for err, line := range lines {
+			if err != nil {
+				log.Fatal("Error looping through commands: ", err)
+			}
 			fmt.Fprintf(stdin, "%s\n", line)
 		}
 		fmt.Fprintf(stdin, "exit\n")
