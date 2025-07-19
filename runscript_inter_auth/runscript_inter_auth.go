@@ -1,3 +1,5 @@
+/* DO NOT USE */
+
 package runscript_inter_auth
 
 import (
