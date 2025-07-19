@@ -84,10 +84,11 @@ func Connect(user, pass, hostfile string) {
 			lines = append(lines, scanner.Text())
 		}
 		cmds.Close()
-		
-		for _, line := range lines {
-			fmt.Fprintf(stdin, "%s\n", line)
-		}
+		commands := strings.Join(lines, ";")
+		//for _, line := range lines {
+		//	fmt.Fprintf(stdin, "%s\n", line)
+		//}
+		fmt.Fprintf(stdin, commands)
 		fmt.Fprintf(stdin, "exit\n")
 		fmt.Fprintf(stdin, "exit\n")
 		stdin.Close()
