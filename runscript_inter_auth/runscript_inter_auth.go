@@ -78,6 +78,7 @@ func Connect(user, pass, hostfile string) {
 		scanner := bufio.NewScanner(cmds)
 		scanner.Split(bufio.ScanLines)
 		var lines []string
+		fmt.Fprintf(stdin, "enable\n")
 		for scanner.Scan() {
 			lines = append(lines, scanner.Text())
 		}
