@@ -80,6 +80,7 @@ func Connect(user, pass, hostfile string) {
 		}
 		fmt.Fprintf(stdin, "exit\n")
 		fmt.Fprintf(stdin, "exit\n")
+		stdin.Close()
 		sess.Wait()
 		sess.Close()
 	}
