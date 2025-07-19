@@ -7,7 +7,6 @@ import (
 	"log"
 	"os"
 	"time"
-	"strings"
 )
 
 var hostList []string
@@ -46,27 +45,23 @@ func Connect(user, pass, hostfile string) {
 			User:            user,
 			Auth:            []ssh.AuthMethod{interactiveAuth},
 		}
+		fmt.Println("++++++++++++++++++++++++++++++++")
+                fmt.Println("Connected to: ", host)
+                fmt.Println("++++++++++++++++++++++++++++++++")		
 		conn, err := ssh.Dial("tcp", host, config)
 		time.Sleep(1)
 		if err != nil {
 			log.Fatal("Failed to dial: ", err)
 		}
+		defer conn.Close()
 		sess, err := conn.NewSession()
 		if err != nil {
 			log.Fatal("Failed to create session: ", err)
 		}
-		/* modes := ssh.TerminalModes{
-		ssh.ECHO:          1,     // enable echoing
-		ssh.TTY_OP_ISPEED: 14400, // input speed = 14.4kbaud
-		ssh.TTY_OP_OSPEED: 14400, // output speed = 14.4kbaud
-		}
-		if err := sess.RequestPty("vt100", 80, 40, modes); err != nil {
-			log.Fatalf("request for pseudo terminal failed: %s", err)
-		}
-                */
+		defer sess.Close()
 		stdin, err := sess.StdinPipe()
 		if err != nil {
-                        log.Fatal("Error inputing data: ", err)
+                        log.Fatal("Failed to connect to remote devices stdin: ", err)
 		}
 		sess.Stdout = os.Stdout
 		sess.Stderr = os.Stderr
@@ -85,11 +80,11 @@ func Connect(user, pass, hostfile string) {
 			lines = append(lines, scanner.Text())
 		}
 		cmds.Close()
-		commands := strings.Join(lines, ";")
-		//for _, line := range lines {
-		//	fmt.Fprintf(stdin, "%s\n", line)
-		//}
-		fmt.Fprintf(stdin, commands)
+		//commands := strings.Join(lines, ";")
+		for _, line := range lines {
+			fmt.Fprintf(stdin, "%s\n", line)
+		}
+		fmt.Fprintf(stdin, line)
 		fmt.Fprintf(stdin, "exit\n")
 		fmt.Fprintf(stdin, "exit\n")
 		stdin.Close()
