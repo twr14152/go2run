@@ -75,10 +75,7 @@ func Connect(user, pass, hostfile string) {
 			lines = append(lines, scanner.Text())
 		}
 		cmds.Close()
-		for err, line := range lines {
-			if err != nil {
-				log.Fatal("Error looping through commands: ", err)
-			}
+		for _, line := range lines {
 			fmt.Fprintf(stdin, "%s\n", line)
 		}
 		fmt.Fprintf(stdin, "exit\n")
