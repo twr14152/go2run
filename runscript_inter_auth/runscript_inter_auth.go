@@ -86,7 +86,7 @@ func Connect(user, pass, hostfile string) {
 		for _, line := range lines {
 			fmt.Fprintf(stdin, "%s\n", line)
 		}
-		fmt.Fprintf(stdin, line)
+		//fmt.Fprintf(stdin, line)
 		fmt.Fprintf(stdin, "exit\n")
 		fmt.Fprintf(stdin, "exit\n")
 		stdin.Close()
