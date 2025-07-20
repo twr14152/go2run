@@ -58,6 +58,7 @@ func Connect(user, pass, hostfile string) {
 		sess, err := conn.NewSession()
 		if err != nil {
 			log.Printf("Failed to create session for %s: %v\n", host, err)
+			conn.Close()
 			continue
 		}
 
@@ -67,8 +68,7 @@ func Connect(user, pass, hostfile string) {
 			ssh.TTY_OP_OSPEED: 14400,
 		}
 
-		err = sess.RequestPty("xterm", 80, 40, modes)
-		if err != nil {
+		if err := sess.RequestPty("xterm", 80, 40, modes); err != nil {
 			log.Fatalf("PTY request failed: %v", err)
 		}
 
@@ -76,8 +76,7 @@ func Connect(user, pass, hostfile string) {
 		stdout, _ := sess.StdoutPipe()
 		sess.Stderr = os.Stderr
 
-		err = sess.Shell()
-		if err != nil {
+		if err := sess.Shell(); err != nil {
 			log.Fatalf("failed to start shell: %v", err)
 		}
 
@@ -90,19 +89,22 @@ func Connect(user, pass, hostfile string) {
 		fmt.Fprintf(stdin, "enable\n")
 		waitForPrompt(reader, "#")
 
-		// Disable terminal paging
+		// Disable paging
 		fmt.Fprintf(stdin, "term len 0\n")
 		waitForPrompt(reader, "#")
 
-		// Read commands from file
+		// Read per-host config file
 		cfgFile := "file_" + host + ".cfg"
 		fmt.Printf("Sending commands from: %s\n", cfgFile)
 
 		cmds, err := os.Open(cfgFile)
 		if err != nil {
 			log.Printf("Could not open config file %s: %v\n", cfgFile, err)
+			sess.Close()
+			conn.Close()
 			continue
 		}
+
 		scanner := bufio.NewScanner(cmds)
 		var lines []string
 		for scanner.Scan() {
@@ -122,12 +124,31 @@ func Connect(user, pass, hostfile string) {
 			fmt.Println(output)
 		}
 
+		// === Clean CLI Exit Logic ===
+
+		// Exit config mode safely
+		fmt.Fprintf(stdin, "end\n")
+		waitForPrompt(reader, "#")
+
+		// Optional: save config
+		// fmt.Fprintf(stdin, "write memory\n")
+		// waitForPrompt(reader, "#")
+
+		// Exit to user prompt
+		fmt.Fprintf(stdin, "exit\n")
+		waitForPrompt(reader, ">")
+
+		// Final exit to close session
 		fmt.Fprintf(stdin, "exit\n")
 		sess.Wait()
+
+		fmt.Println("--- Session closed ---")
+
 		sess.Close()
 		conn.Close()
 	}
 }
+
 
 // Wait for a specific CLI prompt like > or #
 func waitForPrompt(reader io.Reader, prompt string) {
