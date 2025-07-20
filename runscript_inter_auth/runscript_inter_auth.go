@@ -124,7 +124,7 @@ func Connect(user, pass, hostfile string) {
 			fmt.Println("[OUTPUT]")
 			fmt.Println(output)
 		}
-
+               /*
 		// === Clean CLI Exit Logic ===
 
 		// Exit config mode safely
@@ -141,7 +141,8 @@ func Connect(user, pass, hostfile string) {
 
 		// Final exit to close session
 		fmt.Fprintf(stdin, "exit\n")
-		sess.Wait()
+		*/
+                sess.Wait()
 
 		fmt.Println("--- Session closed ---")
 
