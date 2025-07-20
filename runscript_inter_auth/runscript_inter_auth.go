@@ -1,100 +1,175 @@
-/* DO NOT USE */
-
-package runscript_inter_auth
+package main
 
 import (
 	"bufio"
 	"fmt"
 	"golang.org/x/crypto/ssh"
+	"io"
 	"log"
 	"os"
+	"strings"
 	"time"
 )
 
 var hostList []string
-var user string
-var pass string
-var hostfile string
 
 func loginHosts(hostfile string) {
 	hf, err := os.Open(hostfile)
-        if err != nil{
-		log.Fatal("Failed to Open file: ", err)
+	if err != nil {
+		log.Fatal("Failed to open file: ", err)
 	}
+	defer hf.Close()
+
 	scanner := bufio.NewScanner(hf)
-	scanner.Split(bufio.ScanLines)
 	for scanner.Scan() {
 		hostList = append(hostList, scanner.Text())
 	}
-	fmt.Println(hostList)
 }
 
 func Connect(user, pass, hostfile string) {
+	loginHosts(hostfile)
+
 	interactiveAuth := ssh.KeyboardInteractive(
 		func(user, instruction string, questions []string, echos []bool) ([]string, error) {
 			answers := make([]string, len(questions))
-			for i := range answers {
+			for i := range questions {
 				answers[i] = pass
 			}
-
 			return answers, nil
 		},
 	)
-	loginHosts(hostfile)
+
 	for _, host := range hostList {
+		fmt.Printf("\n--- Connecting to %s ---\n", host)
+
 		config := &ssh.ClientConfig{
-			HostKeyCallback: ssh.InsecureIgnoreHostKey(),
 			User:            user,
 			Auth:            []ssh.AuthMethod{interactiveAuth},
+			HostKeyCallback: ssh.InsecureIgnoreHostKey(),
+			Timeout:         5 * time.Second,
 		}
-		fmt.Println("++++++++++++++++++++++++++++++++")
-                fmt.Println("Connected to: ", host)
-                fmt.Println("++++++++++++++++++++++++++++++++")		
+
 		conn, err := ssh.Dial("tcp", host, config)
-		time.Sleep(1)
 		if err != nil {
-			log.Fatal("Failed to dial: ", err)
+			log.Printf("Failed to dial %s: %v\n", host, err)
+			continue
 		}
-		defer conn.Close()
+
 		sess, err := conn.NewSession()
 		if err != nil {
-			log.Fatal("Failed to create session: ", err)
+			log.Printf("Failed to create session for %s: %v\n", host, err)
+			continue
 		}
-		fmt.Println("Started session...")
-		defer sess.Close()
-		fmt.Println("Stating stdin...")
-		stdin, err := sess.StdinPipe()
+
+		modes := ssh.TerminalModes{
+			ssh.ECHO:          1,
+			ssh.TTY_OP_ISPEED: 14400,
+			ssh.TTY_OP_OSPEED: 14400,
+		}
+
+		err = sess.RequestPty("xterm", 80, 40, modes)
 		if err != nil {
-                        log.Fatal("Failed to connect to remote devices stdin: ", err)
+			log.Fatalf("PTY request failed: %v", err)
 		}
-		sess.Stdout = os.Stdout
+
+		stdin, _ := sess.StdinPipe()
+		stdout, _ := sess.StdoutPipe()
 		sess.Stderr = os.Stderr
-		sess.Shell()
-		// cmds file should use host.cfg name standard
-		fmt.Println("\n\nThis is the config file named:" + "file_" + host + ".cfg")
-		fmt.Printf("\n\n\n\n")
-		cmds, err := os.Open("file_" + host + ".cfg")
+
+		err = sess.Shell()
 		if err != nil {
-			log.Fatal(err)
+			log.Fatalf("failed to start shell: %v", err)
+		}
+
+		reader := stdout
+
+		// Wait for initial prompt
+		waitForPrompt(reader, ">")
+
+		// Enter enable mode
+		fmt.Fprintf(stdin, "enable\n")
+		waitForPrompt(reader, "#")
+
+		// Disable terminal paging
+		fmt.Fprintf(stdin, "term len 0\n")
+		waitForPrompt(reader, "#")
+
+		// Read commands from file
+		cfgFile := "file_" + host + ".cfg"
+		fmt.Printf("Sending commands from: %s\n", cfgFile)
+
+		cmds, err := os.Open(cfgFile)
+		if err != nil {
+			log.Printf("Could not open config file %s: %v\n", cfgFile, err)
+			continue
 		}
 		scanner := bufio.NewScanner(cmds)
-		scanner.Split(bufio.ScanLines)
 		var lines []string
-		fmt.Fprintf(stdin, "enable\n")
 		for scanner.Scan() {
 			lines = append(lines, scanner.Text())
 		}
 		cmds.Close()
-		//commands := strings.Join(lines, ";")
+
 		for _, line := range lines {
+			if strings.TrimSpace(line) == "" {
+				continue
+			}
+			fmt.Printf("[SENDING] %s\n", line)
 			fmt.Fprintf(stdin, "%s\n", line)
+			time.Sleep(200 * time.Millisecond)
+			output := readUntilPrompt(reader, "#")
+			fmt.Println("[OUTPUT]")
+			fmt.Println(output)
 		}
-		//fmt.Fprintf(stdin, line)
+
 		fmt.Fprintf(stdin, "exit\n")
-		fmt.Fprintf(stdin, "exit\n")
-		stdin.Close()
 		sess.Wait()
 		sess.Close()
+		conn.Close()
 	}
-	hostList = nil
+}
+
+// Wait for a specific CLI prompt like > or #
+func waitForPrompt(reader io.Reader, prompt string) {
+	fmt.Printf("[Waiting for prompt: %s]\n", prompt)
+	var buffer strings.Builder
+	buf := make([]byte, 1)
+
+	for {
+		n, err := reader.Read(buf)
+		if err != nil {
+			log.Fatalf("Error reading from SSH session: %v", err)
+		}
+		if n > 0 {
+			buffer.WriteString(string(buf[:n]))
+			if strings.Contains(buffer.String(), prompt) {
+				fmt.Println("[PROMPT FOUND]")
+				break
+			}
+		}
+	}
+}
+
+// Read output until we get back to prompt
+func readUntilPrompt(reader io.Reader, prompt string) string {
+	var buffer strings.Builder
+	buf := make([]byte, 1)
+
+	for {
+		n, err := reader.Read(buf)
+		if err != nil && err != io.EOF {
+			log.Fatalf("Error reading from SSH session: %v", err)
+		}
+		if n > 0 {
+			char := string(buf[:n])
+			buffer.WriteString(char)
+			if strings.Contains(buffer.String(), prompt) {
+				break
+			}
+		} else if err == io.EOF {
+			break
+		}
+	}
+
+	return buffer.String()
 }
