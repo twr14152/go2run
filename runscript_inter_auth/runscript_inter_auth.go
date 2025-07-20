@@ -142,7 +142,7 @@ func Connect(user, pass, hostfile string) {
 		// Final exit to close session
 		fmt.Fprintf(stdin, "exit\n")
 		*/
-                sess.Wait()
+                //sess.Wait()
 
 		fmt.Println("--- Session closed ---")
 
