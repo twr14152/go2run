@@ -1,4 +1,4 @@
-package main
+package runscript_inter_auth
 
 import (
 	"bufio"
