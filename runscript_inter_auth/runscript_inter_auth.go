@@ -55,12 +55,14 @@ func Connect(user, pass, hostfile string) {
 			log.Printf("Failed to dial %s: %v\n", host, err)
 			continue
 		}
+		defer conn.Close()
 
 		sess, err := conn.NewSession()
 		if err != nil {
 			log.Printf("Failed to create session for %s: %v\n", host, err)
 			continue
 		}
+		defer sess.Close()
 
 		modes := ssh.TerminalModes{
 			ssh.ECHO:          1,
@@ -81,6 +83,9 @@ func Connect(user, pass, hostfile string) {
 		if err != nil {
 			log.Fatalf("failed to start shell: %v", err)
 		}
+		defer sess.Wait()
+		defer sess.Close()
+		defer conn.Close()
 
 		reader := stdout
 
