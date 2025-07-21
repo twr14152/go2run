@@ -128,7 +128,8 @@ func Connect(user, pass, hostfile string) {
 			waitForPrompt(reader, "#")
 			fmt.Fprintf(stdin, "exit\n")
 			waitForPrompt(reader, ">")
-			fmt.Fprintf(stdin, "exit\n")
+			//fmt.Fprintf(stdin, "exit\n")
+			stdin.Close()
 
 		// Ensure session terminates cleanly
 		        err = sess.Wait()
