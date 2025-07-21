@@ -17,7 +17,7 @@ func loginHosts(hostfile string) {
 	hostList = nil
 	hf, err := os.Open(hostfile)
 	if err != nil {
-		log.Fatal("Failed to open file: ", err)
+		log.Fatal("Failed to open host file: ", err)
 	}
 	defer hf.Close()
 
@@ -30,7 +30,7 @@ func loginHosts(hostfile string) {
 func Connect(user, pass, hostfile string) {
 	loginHosts(hostfile)
 
-	interactiveAuth := ssh.KeyboardInteractive(
+	auth := ssh.KeyboardInteractive(
 		func(user, instruction string, questions []string, echos []bool) ([]string, error) {
 			answers := make([]string, len(questions))
 			for i := range questions {
@@ -45,7 +45,7 @@ func Connect(user, pass, hostfile string) {
 
 		config := &ssh.ClientConfig{
 			User:            user,
-			Auth:            []ssh.AuthMethod{interactiveAuth},
+			Auth:            []ssh.AuthMethod{auth},
 			HostKeyCallback: ssh.InsecureIgnoreHostKey(),
 			Timeout:         5 * time.Second,
 		}
@@ -80,69 +80,68 @@ func Connect(user, pass, hostfile string) {
 
 		err = sess.Shell()
 		if err != nil {
-			log.Fatalf("failed to start shell: %v", err)
+			log.Fatalf("Failed to start shell: %v", err)
 		}
 
 		reader := stdout
 
-		// === CLI initialization ===
+		// Login prompts
 		waitForPrompt(reader, ">")
 		fmt.Fprintf(stdin, "enable\n")
 		waitForPrompt(reader, "#")
+
 		fmt.Fprintf(stdin, "term len 0\n")
 		waitForPrompt(reader, "#")
 
-		// === Read per-host config ===
+		// Read commands from per-host file
 		cfgFile := "file_" + host + ".cfg"
 		fmt.Printf("Sending commands from: %s\n", cfgFile)
 
-		cmds, err := os.Open(cfgFile)
+		cmdFile, err := os.Open(cfgFile)
 		if err != nil {
 			log.Printf("Could not open config file %s: %v\n", cfgFile, err)
 			sess.Close()
 			conn.Close()
 			continue
 		}
-		scanner := bufio.NewScanner(cmds)
-		var lines []string
-		for scanner.Scan() {
-			lines = append(lines, scanner.Text())
-		}
-		cmds.Close()
 
-		for _, line := range lines {
-			if strings.TrimSpace(line) == "" {
-				continue
+		var commands []string
+		scanner := bufio.NewScanner(cmdFile)
+		for scanner.Scan() {
+			line := strings.TrimSpace(scanner.Text())
+			if line != "" {
+				commands = append(commands, line)
 			}
-			fmt.Printf("[SENDING] %s\n", line)
-			fmt.Fprintf(stdin, "%s\n", line)
+		}
+		cmdFile.Close()
+
+		for _, cmd := range commands {
+			fmt.Printf("[SENDING] %s\n", cmd)
+			fmt.Fprintf(stdin, "%s\n", cmd)
 			time.Sleep(200 * time.Millisecond)
 			output := readUntilPrompt(reader, "#")
 			fmt.Println("[OUTPUT]")
 			fmt.Println(output)
 		}
 
-		// === Graceful exit ===
+		// Cleanly exit config mode
 		fmt.Fprintf(stdin, "end\n")
 		waitForPrompt(reader, "#")
-
 		fmt.Fprintf(stdin, "exit\n")
 		waitForPrompt(reader, ">")
-
 		fmt.Fprintf(stdin, "exit\n")
 
+		// Ensure session terminates cleanly
 		err = sess.Wait()
 		if err != nil {
-			log.Printf("Session ended with error: %v", err)
+			log.Printf("Session ended with error on %s: %v", host, err)
 		}
 
 		sess.Close()
 		conn.Close()
-		fmt.Println("--- Session closed ---")
 	}
 }
 
-// Waits for a specific CLI prompt (e.g., ">", "#")
 func waitForPrompt(reader io.Reader, prompt string) {
 	fmt.Printf("[Waiting for prompt: %s]\n", prompt)
 	var buffer strings.Builder
@@ -163,7 +162,6 @@ func waitForPrompt(reader io.Reader, prompt string) {
 	}
 }
 
-// Reads output until the prompt is seen again
 func readUntilPrompt(reader io.Reader, prompt string) string {
 	var buffer strings.Builder
 	buf := make([]byte, 1)
@@ -171,11 +169,10 @@ func readUntilPrompt(reader io.Reader, prompt string) string {
 	for {
 		n, err := reader.Read(buf)
 		if err != nil && err != io.EOF {
-			log.Fatalf("Error reading from SSH session: %v", err)
+			log.Fatalf("Error reading SSH output: %v", err)
 		}
 		if n > 0 {
-			char := string(buf[:n])
-			buffer.WriteString(char)
+			buffer.WriteString(string(buf[:n]))
 			if strings.Contains(buffer.String(), prompt) {
 				break
 			}
@@ -183,6 +180,5 @@ func readUntilPrompt(reader io.Reader, prompt string) string {
 			break
 		}
 	}
-
 	return buffer.String()
 }
