@@ -59,7 +59,6 @@ func Connect(user, pass, hostfile string) {
 		sess, err := conn.NewSession()
 		if err != nil {
 			log.Printf("Failed to create session for %s: %v\n", host, err)
-			//conn.Close()   // doesn't match working code
 			continue
 		}
 
@@ -69,7 +68,8 @@ func Connect(user, pass, hostfile string) {
 			ssh.TTY_OP_OSPEED: 14400,
 		}
 
-		if err := sess.RequestPty("xterm", 80, 40, modes); err != nil {
+		err = sess.RequestPty("xterm", 80, 40, modes)
+		if err != nil {
 			log.Fatalf("PTY request failed: %v", err)
 		}
 
@@ -77,7 +77,8 @@ func Connect(user, pass, hostfile string) {
 		stdout, _ := sess.StdoutPipe()
 		sess.Stderr = os.Stderr
 
-		if err := sess.Shell(); err != nil {
+		err = sess.Shell()
+		if err != nil {
 			log.Fatalf("failed to start shell: %v", err)
 		}
 
@@ -90,22 +91,19 @@ func Connect(user, pass, hostfile string) {
 		fmt.Fprintf(stdin, "enable\n")
 		waitForPrompt(reader, "#")
 
-		// Disable paging
+		// Disable terminal paging
 		fmt.Fprintf(stdin, "term len 0\n")
 		waitForPrompt(reader, "#")
 
-		// Read per-host config file
+		// Read commands from file
 		cfgFile := "file_" + host + ".cfg"
 		fmt.Printf("Sending commands from: %s\n", cfgFile)
 
 		cmds, err := os.Open(cfgFile)
 		if err != nil {
 			log.Printf("Could not open config file %s: %v\n", cfgFile, err)
-			//sess.Close()  // doesnt match working code
-			//conn.Close()  // doesnt match working code
 			continue
 		}
-
 		scanner := bufio.NewScanner(cmds)
 		var lines []string
 		for scanner.Scan() {
@@ -124,38 +122,13 @@ func Connect(user, pass, hostfile string) {
 			fmt.Println("[OUTPUT]")
 			fmt.Println(output)
 		}
+
 		fmt.Fprintf(stdin, "exit\n")
 		sess.Wait()
 		sess.Close()
 		conn.Close()
 	}
 }
-/*               doesnt match working code
-         	// === Clean CLI Exit Logic ===
-
-		// Exit config mode safely
-		fmt.Fprintf(stdin, "end\n")
-		waitForPrompt(reader, "#")
-
-		// Optional: save config
-		// fmt.Fprintf(stdin, "write memory\n")
-		// waitForPrompt(reader, "#")
-
-		// Exit to user prompt
-		fmt.Fprintf(stdin, "exit\n")
-		waitForPrompt(reader, ">")
-
-		// Final exit to close session
-		fmt.Fprintf(stdin, "exit\n")
-	        sess.Wait()
-
-		fmt.Println("--- Session closed ---")
-
-		sess.Close()
-		conn.Close()
-	}
-}
-*/
 
 // Wait for a specific CLI prompt like > or #
 func waitForPrompt(reader io.Reader, prompt string) {
