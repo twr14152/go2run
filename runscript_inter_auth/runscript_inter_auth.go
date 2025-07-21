@@ -122,20 +122,20 @@ func Connect(user, pass, hostfile string) {
 			output := readUntilPrompt(reader, "#")
 			fmt.Println("[OUTPUT]")
 			fmt.Println(output)
-		}
-
-		// Cleanly exit config mode
-		fmt.Fprintf(stdin, "end\n")
-		waitForPrompt(reader, "#")
-		fmt.Fprintf(stdin, "exit\n")
-		waitForPrompt(reader, ">")
-		fmt.Fprintf(stdin, "exit\n")
+		//}
+			// Cleanly exit config mode
+			fmt.Fprintf(stdin, "end\n")
+			waitForPrompt(reader, "#")
+			fmt.Fprintf(stdin, "exit\n")
+			waitForPrompt(reader, ">")
+			fmt.Fprintf(stdin, "exit\n")
 
 		// Ensure session terminates cleanly
-		err = sess.Wait()
-		if err != nil {
-			log.Printf("Session ended with error on %s: %v", host, err)
-		}
+		        err = sess.Wait()
+		        if err != nil {
+				log.Printf("Session ended with error on %s: %v", host, err)
+			}
+			}
 
 		sess.Close()
 		conn.Close()
