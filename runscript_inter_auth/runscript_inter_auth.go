@@ -127,13 +127,23 @@ func Connect(user, pass, hostfile string) {
 			fmt.Println("[OUTPUT]")
 			fmt.Println(output)
 		}
+		// Attempt clean exit
+		fmt.Fprintf(stdin, "end\n")
+		waitForPrompt(reader, "#") // Only returns if '#' is seen
 
 		fmt.Fprintf(stdin, "exit\n")
-		sess.Wait()
-		sess.Close()
-		conn.Close()
-	}
+		waitForPrompt(reader, ">") // Only returns if '>' is seen
+
+		fmt.Fprintf(stdin, "exit\n") // This should close the shell session
+
+		// Wait for shell to terminate
+		err = sess.Wait()
+		if err != nil {
+		log.Printf("Session ended with error: %v", err)
 }
+
+
+
 
 // Wait for a specific CLI prompt like > or #
 func waitForPrompt(reader io.Reader, prompt string) {
