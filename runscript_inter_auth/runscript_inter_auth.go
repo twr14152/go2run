@@ -59,7 +59,7 @@ func Connect(user, pass, hostfile string) {
 		sess, err := conn.NewSession()
 		if err != nil {
 			log.Printf("Failed to create session for %s: %v\n", host, err)
-			conn.Close()
+			//conn.Close()   // doesn't match working code
 			continue
 		}
 
@@ -101,8 +101,8 @@ func Connect(user, pass, hostfile string) {
 		cmds, err := os.Open(cfgFile)
 		if err != nil {
 			log.Printf("Could not open config file %s: %v\n", cfgFile, err)
-			sess.Close()
-			conn.Close()
+			//sess.Close()  // doesnt match working code
+			//conn.Close()  // doesnt match working code
 			continue
 		}
 
@@ -124,6 +124,13 @@ func Connect(user, pass, hostfile string) {
 			fmt.Println("[OUTPUT]")
 			fmt.Println(output)
 		}
+		fmt.Fprintf(stdin, "exit\n")
+		sess.Wait()
+		sess.Close()
+		conn.Close()
+	}
+}
+/*               doesnt match working code
          	// === Clean CLI Exit Logic ===
 
 		// Exit config mode safely
@@ -148,7 +155,7 @@ func Connect(user, pass, hostfile string) {
 		conn.Close()
 	}
 }
-
+*/
 
 // Wait for a specific CLI prompt like > or #
 func waitForPrompt(reader io.Reader, prompt string) {
