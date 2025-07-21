@@ -52,7 +52,7 @@ func Connect(user, pass, hostfile string) {
 
 		conn, err := ssh.Dial("tcp", host, config)
 		if err != nil {
-			log.Printf("Failed to dial %s: %v\n", host, err)
+			fmt.Printf("Failed to dial %s: %v\n", host, err)
 			continue
 		}
 
