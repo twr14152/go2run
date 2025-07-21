@@ -55,14 +55,13 @@ func Connect(user, pass, hostfile string) {
 			log.Printf("Failed to dial %s: %v\n", host, err)
 			continue
 		}
-		defer conn.Close()
 
 		sess, err := conn.NewSession()
 		if err != nil {
 			log.Printf("Failed to create session for %s: %v\n", host, err)
+			conn.Close()
 			continue
 		}
-		defer sess.Close()
 
 		modes := ssh.TerminalModes{
 			ssh.ECHO:          1,
@@ -83,30 +82,25 @@ func Connect(user, pass, hostfile string) {
 		if err != nil {
 			log.Fatalf("failed to start shell: %v", err)
 		}
-		defer sess.Wait()
-		defer sess.Close()
-		defer conn.Close()
 
 		reader := stdout
 
-		// Wait for initial prompt
+		// === CLI initialization ===
 		waitForPrompt(reader, ">")
-
-		// Enter enable mode
 		fmt.Fprintf(stdin, "enable\n")
 		waitForPrompt(reader, "#")
-
-		// Disable terminal paging
 		fmt.Fprintf(stdin, "term len 0\n")
 		waitForPrompt(reader, "#")
 
-		// Read commands from file
+		// === Read per-host config ===
 		cfgFile := "file_" + host + ".cfg"
 		fmt.Printf("Sending commands from: %s\n", cfgFile)
 
 		cmds, err := os.Open(cfgFile)
 		if err != nil {
 			log.Printf("Could not open config file %s: %v\n", cfgFile, err)
+			sess.Close()
+			conn.Close()
 			continue
 		}
 		scanner := bufio.NewScanner(cmds)
@@ -127,25 +121,28 @@ func Connect(user, pass, hostfile string) {
 			fmt.Println("[OUTPUT]")
 			fmt.Println(output)
 		}
-		// Attempt clean exit
+
+		// === Graceful exit ===
 		fmt.Fprintf(stdin, "end\n")
-		waitForPrompt(reader, "#") // Only returns if '#' is seen
+		waitForPrompt(reader, "#")
 
 		fmt.Fprintf(stdin, "exit\n")
-		waitForPrompt(reader, ">") // Only returns if '>' is seen
+		waitForPrompt(reader, ">")
 
-		fmt.Fprintf(stdin, "exit\n") // This should close the shell session
+		fmt.Fprintf(stdin, "exit\n")
 
-		// Wait for shell to terminate
 		err = sess.Wait()
 		if err != nil {
-		log.Printf("Session ended with error: %v", err)
+			log.Printf("Session ended with error: %v", err)
+		}
+
+		sess.Close()
+		conn.Close()
+		fmt.Println("--- Session closed ---")
+	}
 }
 
-
-
-
-// Wait for a specific CLI prompt like > or #
+// Waits for a specific CLI prompt (e.g., ">", "#")
 func waitForPrompt(reader io.Reader, prompt string) {
 	fmt.Printf("[Waiting for prompt: %s]\n", prompt)
 	var buffer strings.Builder
@@ -166,7 +163,7 @@ func waitForPrompt(reader io.Reader, prompt string) {
 	}
 }
 
-// Read output until we get back to prompt
+// Reads output until the prompt is seen again
 func readUntilPrompt(reader io.Reader, prompt string) string {
 	var buffer strings.Builder
 	buf := make([]byte, 1)
